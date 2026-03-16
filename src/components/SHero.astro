@@ -30,6 +30,10 @@ import ASeparator from './ASeparator.astro'
     />
   </div>
 
+  <div class="s-hero__profile js-profile">
+    <img src="/images/IMG_2.jpeg" alt="Sunny Kardam Profile" />
+  </div>
+
   <div class="s__border js-border"></div>
 </div><!-- .s-hero -->
 
@@ -40,7 +44,8 @@ import ASeparator from './ASeparator.astro'
   import { gsap } from 'gsap'
   import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
   import { SplitText } from 'gsap/SplitText'
-  gsap.registerPlugin(DrawSVGPlugin, SplitText)
+  import { Draggable } from 'gsap/Draggable'
+  gsap.registerPlugin(DrawSVGPlugin, SplitText, Draggable)
 
   class Section {
     el: HTMLElement
@@ -125,6 +130,7 @@ import ASeparator from './ASeparator.astro'
       const chars = content.querySelectorAll('.char__inner')
       const separators = content.querySelectorAll('.js-separator')
       const star = content.querySelector('.js-star')
+      const profile = this.el.querySelector('.js-profile')
 
       const tl = gsap.timeline()
 
@@ -214,6 +220,23 @@ import ASeparator from './ASeparator.astro'
       )
 
       tl.fromTo(
+        profile,
+        {
+          opacity: 0,
+          scale: 0.8,
+          y: 50
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 1.5,
+          ease: 'expo.out'
+        },
+        1.5
+      )
+
+      tl.fromTo(
         chars,
         {
           y: '-200%',
@@ -226,6 +249,14 @@ import ASeparator from './ASeparator.astro'
         },
         0.45
       )
+
+      tl.call(() => {
+        Draggable.create(profile, {
+          type: 'x,y',
+          bounds: document.body,
+          inertia: true,
+        })
+      })
 
       tl.from(
         separators,
@@ -347,6 +378,62 @@ import ASeparator from './ASeparator.astro'
 
       @include mq(phone) {
         height: 40 * 0.5rem;
+      }
+    }
+
+    .s-hero__profile {
+      position: absolute;
+      bottom: 8%;
+      right: 10%;
+      width: 320px;
+      border: 4px solid color(secondary);
+      background-color: color(primary);
+      padding: 10px;
+      box-shadow: 14px 14px 0 color(secondary);
+      border-radius: 12px;
+      overflow: hidden; // Revert to hidden
+      z-index: 10;
+      
+      animation: s-hero-breathe 4s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+
+      cursor: grab;
+      touch-action: none;
+
+      &:active {
+        cursor: grabbing;
+        animation-play-state: paused;
+      }
+
+      @include mq(tablet) {
+        width: 240px;
+        height: 300px;
+        bottom: 8%;
+        right: 5%;
+      }
+
+      @include mq(phone) {
+        width: 160px;
+        height: 200px;
+        bottom: 5%;
+        right: 5%;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+      }
+    }
+
+    @keyframes s-hero-breathe {
+      0% {
+        transform: scale(1) translateY(0);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+      100% {
+        transform: scale(1.05) translateY(-5px);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
       }
     }
 
