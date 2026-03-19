@@ -160,6 +160,8 @@ const codingProfiles = {
     smileyImages: {
       main: HTMLImageElement
       contrasted: HTMLImageElement
+      leetcode: HTMLImageElement
+      codolio: HTMLImageElement
     }
 
     bounding: {
@@ -334,9 +336,17 @@ const codingProfiles = {
       const contrastedImg = new Image(100, 100)
       contrastedImg.src = '/images/asset-smiley--contrasted.svg'
 
+      const leetcodeImg = new Image(100, 100)
+      leetcodeImg.src = '/images/leetcode.svg'
+
+      const codolioImg = new Image(100, 100)
+      codolioImg.src = '/images/codolio.webp'
+
       this.smileyImages = {
         main: mainImg,
         contrasted: contrastedImg,
+        leetcode: leetcodeImg,
+        codolio: codolioImg,
       }
     }
 
@@ -579,11 +589,17 @@ const codingProfiles = {
     throwSmileys(award) {
       const { el, ctx, smileyImages, smileys } = this
 
-      const image = document.documentElement.classList.contains(
+      let image = document.documentElement.classList.contains(
         'theme-contrasted'
       )
         ? smileyImages.contrasted
         : smileyImages.main
+
+      if (award.classList.contains('s__award--leetcode-main')) {
+        image = smileyImages.leetcode
+      } else if (award.classList.contains('s__award--webby2025')) {
+        image = smileyImages.codolio
+      }
 
       const elBounding = el.getBoundingClientRect()
       const awardBounding = award.getBoundingClientRect()
