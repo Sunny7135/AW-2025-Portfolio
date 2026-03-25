@@ -5,16 +5,16 @@
 
 $theme-colors: (
   default: (
-    primary: #b30000,
-    secondary: #000000,
-    shadow: #330000,
-    white: #ffffff,
-  ),
-
-  contrasted: (
     primary: #fff2ed,
     secondary: #160000,
     shadow: #4d4040,
     white: #fff0eb,
+  ),
+
+  contrasted: (
+    primary: #f40c3f,
+    secondary: #000000,
+    shadow: #330000,
+    white: #ffffff,
   ),
 );

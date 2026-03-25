@@ -5,8 +5,20 @@ const menu = [
     text: 'About',
   },
   {
+    id: 'training',
+    text: 'Training',
+  },
+  {
+    id: 'certificates',
+    text: 'Certificates',
+  },
+  {
     id: 'work',
     text: 'Work',
+  },
+  {
+    id: 'achievements',
+    text: 'Achievements',
   },
   {
     id: 'contact',
@@ -97,11 +109,11 @@ const menu = [
     <aside class="sb-availability">
       <p>
         <span class="sb__line">
-          <span class="sb__text">Want to see my full experience?</span>
+          <span class="sb__text">Get my resume</span>
         </span>
 
         <span class="sb__line">
-          <a href="/resume.pdf" target="_blank" class="sb__text sb__link-text">Download Resume</a>
+          <a href="/resume.pdf" target="_blank" class="sb__link-text">Download ↓</a>
         </span>
       </p>
     </aside><!-- .sb-availability -->
@@ -468,6 +480,8 @@ const menu = [
     width: 100%;
 
     border-bottom: 1px solid color(secondary);
+    background: rgba(color(primary), 0.8);
+    backdrop-filter: blur(12px);
     opacity: 0;
 
     &__container {
@@ -874,6 +888,7 @@ const menu = [
       .sb__line {
         display: block;
         padding: 1px 1.25rem 0;
+        white-space: nowrap;
       }
 
       .sb__text {

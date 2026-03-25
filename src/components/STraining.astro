@@ -1,0 +1,234 @@
+---
+// Training journey section
+---
+
+<section id="training" class="s-training" data-intersect>
+  <div class="s__inner">
+    <h2 class="s__title">Training Journey</h2>
+    <p class="s__subtitle">Strengthening problem-solving skills through intensive specialized training.</p>
+
+    <div class="s-training__card js-card">
+      <div class="s-training__content">
+        <div class="s-training__header">
+          <div class="s-training__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <div class="s-training__info">
+            <h3>Data Structures & Algorithms Training</h3>
+            <div class="s-training__meta">
+              <span class="s-training__org">Skillstone</span>
+              <span class="s-training__date">June 2025 – July 2025</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="s-training__body">
+          <p>
+            Completed an intensive <strong>Data Structures & Algorithms</strong> training program designed to strengthen algorithmic thinking and advanced problem-solving skills required for software engineering roles.
+          </p>
+          
+          <div class="s-training__highlights">
+            <h4><span class="icon">🏆</span> Key Highlights</h4>
+            <ul>
+              <li>Solved <strong>500+ coding problems</strong> on platforms like LeetCode and GeeksforGeeks.</li>
+              <li>Mastered advanced concepts including <strong>Trees, Graphs, Dynamic Programming, and Recursion</strong>.</li>
+              <li>Focused on designing optimized algorithms and solving real-world complex problems.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-training__media">
+        <div class="media-container">
+          <img src="/images/Screenshot 2025-12-19 at 15.39.19.pdf" alt="Training Certificate Preview" />
+          <span class="media-label">Certificate</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .s-training {
+    padding: 10rem 0;
+    background: color(primary);
+    position: relative;
+    overflow: hidden;
+
+    @include mq(phone) {
+      padding: 5rem 1rem;
+    }
+
+    .s__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .s__title {
+      font: 700 4rem / 1 font-family(bigger);
+      text-transform: uppercase;
+      color: color(secondary);
+      margin-bottom: 1rem;
+      text-align: center;
+      
+      @include mq(phone) {
+        font-size: 2.5rem;
+      }
+    }
+
+    .s__subtitle {
+      font: 400 1.2rem / 1.4 font-family(fraktion);
+      color: color(secondary);
+      text-align: center;
+      margin-bottom: 5rem;
+      opacity: 0.8;
+    }
+
+    .s-training__card {
+      display: flex;
+      background: rgba(color(secondary), 0.03);
+      border: 1px solid rgba(color(secondary), 0.2);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      
+      @include mq(tablet) {
+        flex-direction: column;
+      }
+    }
+
+    .s-training__content {
+      flex: 1;
+      padding: 3rem;
+      
+      @include mq(phone) {
+        padding: 1.5rem;
+      }
+    }
+
+    .s-training__header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+
+      .s-training__icon {
+        background: color(secondary);
+        color: color(primary);
+        padding: 0.75rem;
+        border-radius: 12px;
+      }
+
+      h3 {
+        font: 700 1.8rem / 1 font-family(fraktion);
+        color: color(secondary);
+        margin: 0;
+        
+        @include mq(phone) {
+          font-size: 1.4rem;
+        }
+      }
+
+      .s-training__meta {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        font-family: font-family(fraktion);
+        
+        .s-training__org {
+          background: rgba(color(secondary), 0.1);
+          padding: 2px 8px;
+          border-radius: 4px;
+        }
+        
+        .s-training__date {
+          opacity: 0.6;
+        }
+      }
+    }
+
+    .s-training__body {
+      color: color(secondary);
+      line-height: 1.6;
+      font-size: 1.1rem;
+
+      p { margin-bottom: 2rem; }
+
+      .s-training__highlights {
+        h4 {
+          text-transform: uppercase;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          
+          li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+
+            &:before {
+              content: '→';
+              position: absolute;
+              left: 0;
+              color: color(secondary);
+            }
+          }
+        }
+      }
+    }
+
+    .s-training__media {
+      flex: 0 0 40%;
+      background: rgba(color(secondary), 0.05);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      @include mq(tablet) {
+        width: 100%;
+        padding: 1rem;
+      }
+
+      .media-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 250px;
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border-radius: 12px;
+          border: 1px solid rgba(color(secondary), 0.1);
+        }
+
+        .media-label {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: color(secondary);
+          color: color(primary);
+          padding: 2px 8px;
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+</style>

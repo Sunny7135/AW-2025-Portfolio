@@ -6,6 +6,9 @@ import SHero from '../components/SHero.astro'
 import SAbout from '../components/SAbout.astro'
 import SSkills from '../components/SSkills.astro'
 import SWork from '../components/SWork.astro'
+import STraining from '../components/STraining.astro'
+import SCertificates from '../components/SCertificates.astro'
+import SAchievements from '../components/SAchievements.astro'
 import SMyWay from '../components/SMyWay.astro'
 import SCTA from '../components/SCTA.astro'
 import ASeparator from '../components/ASeparator.astro'
@@ -43,9 +46,9 @@ import '../styles/global.scss'
     />
     <meta name="apple-mobile-web-app-title" content="AW Portfolio" />
 
-    <meta name="theme-color" content="#160000" />
-    <meta name="msapplication-navbutton-color" content="#160000" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#160000" />
+    <meta name="theme-color" content="#fff2ed" />
+    <meta name="msapplication-navbutton-color" content="#fff2ed" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#fff2ed" />
 
     <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
@@ -108,7 +111,19 @@ import '../styles/global.scss'
 
       <ASeparator style="secondary" />
 
+      <STraining />
+
+      <ASeparator style="secondary" />
+
+      <SCertificates />
+
+      <ASeparator style="secondary" />
+
       <SWork />
+
+      <ASeparator style="secondary" />
+
+      <SAchievements />
 
       <ASeparator style="secondary" />
 
@@ -121,7 +136,7 @@ import '../styles/global.scss'
 
     <div
       class="site-intro js-intro"
-      style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 100%; background: #F40C3F;"
+      style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 100%; background: #fff2ed;"
     >
       <div class="sb-logo js-logo" style="width: 100%; height: 3rem; text-align: center; color: #160000; font: 700 3rem / 1 'Bigger Display', sans-serif; letter-spacing: 0.05em; display: flex; flex-direction: row; align-items: center; justify-content: center;">
         <div style="display: flex; overflow: hidden;">

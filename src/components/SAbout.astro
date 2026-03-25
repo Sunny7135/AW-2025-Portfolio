@@ -21,17 +21,11 @@ const codingProfiles = {
       <h2 class="s__title">About</h2>
 
       <div class="s__content">
-        <p>
-          B.Tech Computer Science student specializing in Artificial Intelligence and Machine Learning.
-        </p>
-
-        <p>
-          Focused on building intelligent systems, modern web applications, and data-driven solutions.
-        </p>
-
-        <p>
-          Interested in machine learning, software engineering, and scalable technology that solves real-world problems.
-        </p>
+        <ul class="s__about-list">
+          <li>B.Tech Computer Science student specializing in Artificial Intelligence and Machine Learning.</li>
+          <li>Focused on building intelligent systems, modern web applications, and data-driven solutions.</li>
+          <li>Experienced in machine learning, software engineering, and scalable technology solving real-world problems.</li>
+        </ul>
       </div><!-- .s__content -->
     </div><!-- .s__block -->
 
@@ -39,13 +33,19 @@ const codingProfiles = {
       <h2 class="s__title">Coding Profiles</h2>
 
       <ul class="s__awards">
-        <li class="s__award s__award--leetcode-main js-award" onclick="window.open('https://leetcode.com/u/Sunny_Kardam/', '_blank')" style="cursor: pointer;">
+        <li
+          class="s__award s__award--leetcode-main js-award"
+          onclick="window.open('https://leetcode.com/u/Sunny_Kardam/', '_blank')"
+          style="cursor: pointer;"
+        >
           <span class="s__award__inner">
-          <span class="s__award__name">LeetCode</span>
+            <span class="s__award__name">LeetCode</span>
             <span class="s__award__counter">Questions Solved: 206</span>
-            <span class="s__award__counter" style="text-decoration: underline;">View Profile ↗</span>
+            <span class="s__award__counter" style="text-decoration: underline;">
+              View Profile ↗
+            </span>
           </span>
-          <span class="s__award__mask" />
+          <span class="s__award__mask"></span>
         </li>
 
         {
@@ -54,7 +54,12 @@ const codingProfiles = {
               class={`s__award s__award--counter s__award--${profile} js-award`}
             >
               <span class="s__award__inner">
-                <span class="s__award__name" style="text-transform: capitalize;">{profile}</span>
+                <span
+                  class="s__award__name"
+                  style="text-transform: capitalize;"
+                >
+                  {profile}
+                </span>
                 {counters.map((counter) => (
                   <span class="s__award__counter">({counter})</span>
                 ))}
@@ -82,7 +87,7 @@ const codingProfiles = {
             <span class="s__award__name">Codolio</span>
             <span class="s__award__text">Coding Profile</span>
           </span>
-          <span class="s__award__mask" />
+          <span class="s__award__mask"></span>
         </li>
 
         <li class="s__award s__award--awwwards js-award">
@@ -90,7 +95,7 @@ const codingProfiles = {
             <span class="s__award__name">Awwwards</span>
             <span class="s__award__text">Site of the Day<br /></span>
           </span>
-          <span class="s__award__mask" />
+          <span class="s__award__mask"></span>
         </li>
 
         <li class="s__award s__award--netMag2016 js-award">
@@ -98,7 +103,7 @@ const codingProfiles = {
             <span class="s__award__name">Net<br />Magazine</span>
             <span class="s__award__text">Site of the<br />Month 2016</span>
           </span>
-          <span class="s__award__mask" />
+          <span class="s__award__mask"></span>
         </li>
 
         <li class="s__award s__award--certifications js-award">
@@ -106,7 +111,7 @@ const codingProfiles = {
             <span class="s__award__name">Certifications</span>
             <span class="s__award__text">Achievements<br />& Rewards</span>
           </span>
-          <span class="s__award__mask" />
+          <span class="s__award__mask"></span>
         </li>
 
         <li class="s__award s__award--fwa js-award">
@@ -114,7 +119,7 @@ const codingProfiles = {
             <span class="s__award__name">FWA</span>
             <span class="s__award__text">FOTD<br />2016</span>
           </span>
-          <span class="s__award__mask" />
+          <span class="s__award__mask"></span>
         </li>
 
         <li class="s__award s__award--cssda js-award">
@@ -122,15 +127,23 @@ const codingProfiles = {
             <span class="s__award__name">CSSDA</span>
             <span class="s__award__text">Site of the<br />Day 2016</span>
           </span>
-          <span class="s__award__mask" />
+          <span class="s__award__mask"></span>
         </li>
 
         <li class="s__award s__award--blank">
           <div class="s-cert-grid-item s-cert-grid-item--1">
-            <img src="/images/Sunny kardam - Certificate.png" alt="Sunny Kardam Certificate" />
+            <img
+              src="/images/Sunny kardam - Certificate.png"
+              alt="Sunny Kardam Certificate"
+            />
           </div>
           <div class="s-cert-grid-item s-cert-grid-item--2">
-            <iframe src="/images/Screenshot 2025-12-19 at 15.39.19.pdf" title="Screenshot Certificate PDF" style="border: none;"></iframe>
+            <iframe
+              src="/images/Screenshot 2025-12-19 at 15.39.19.pdf"
+              title="Screenshot Certificate PDF"
+              style="border: none;"
+            >
+            </iframe>
           </div>
         </li>
       </ul><!-- .s__content -->
@@ -196,8 +209,8 @@ const codingProfiles = {
       this.inner = this.el.querySelector('.js-inner')
       this.svg = this.el.querySelector('.js-grid')
       this.path = this.el.querySelector('.js-path')
-      ;(this.canvas = this.el.querySelector('.js-canvas')),
-      this.ctx = this.canvas.getContext('2d')
+      ;((this.canvas = this.el.querySelector('.js-canvas')),
+        (this.ctx = this.canvas.getContext('2d')))
       this.awards = this.el.querySelectorAll('.js-award')
 
       // Properties
@@ -251,7 +264,7 @@ const codingProfiles = {
         },
         {
           threshold: 0.5,
-        }
+        },
       )
 
       this.awards.forEach((award) => {
@@ -337,7 +350,8 @@ const codingProfiles = {
       contrastedImg.src = '/images/asset-smiley--contrasted.svg'
 
       const leetcodeImg = new Image(100, 100)
-      leetcodeImg.src = '/images/free-leetcode-3d-icon-png-download-9325307@0.webp'
+      leetcodeImg.src =
+        '/images/free-leetcode-3d-icon-png-download-9325307@0.webp'
 
       const codolioImg = new Image(100, 100)
       codolioImg.src = '/images/codolio.webp'
@@ -590,7 +604,7 @@ const codingProfiles = {
       const { el, ctx, smileyImages, smileys } = this
 
       let image = document.documentElement.classList.contains(
-        'theme-contrasted'
+        'theme-contrasted',
       )
         ? smileyImages.contrasted
         : smileyImages.main
@@ -734,14 +748,14 @@ const codingProfiles = {
 
       ctx.translate(
         this.x + this.width * 0.5 * this.a,
-        this.y + this.height * 0.5 * this.a
+        this.y + this.height * 0.5 * this.a,
       )
 
       ctx.rotate((this.r * Math.PI) / 180)
 
       ctx.translate(
         -this.x - this.width * 0.5 * this.a,
-        -this.y - this.height * 0.5 * this.a
+        -this.y - this.height * 0.5 * this.a,
       )
 
       ctx.drawImage(
@@ -749,7 +763,7 @@ const codingProfiles = {
         this.x,
         this.y,
         this.width * this.a,
-        this.height * this.a
+        this.height * this.a,
       )
 
       ctx.restore()
@@ -1106,15 +1120,15 @@ const codingProfiles = {
           }
         }
 
-      &--netMag2016 {
-        grid-column: 1 / 3;
-        grid-row: 6 / 7;
-
-        @include mq(tablet-sm) {
+        &--netMag2016 {
           grid-column: 1 / 3;
           grid-row: 6 / 7;
+
+          @include mq(tablet-sm) {
+            grid-column: 1 / 3;
+            grid-row: 6 / 7;
+          }
         }
-      }
 
         &--certifications {
           grid-column: 1 / 5;
@@ -1296,7 +1310,7 @@ const codingProfiles = {
           position: absolute;
           width: 75%;
           height: auto;
-          box-shadow: 10px 10px 20px rgba(0,0,0,0.15);
+          box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
           border: 4px solid color(secondary);
           background: color(primary);
           padding: 8px;
@@ -1304,9 +1318,12 @@ const codingProfiles = {
           z-index: 10;
           opacity: 0;
           transform: scale(0.8);
-          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          transition:
+            opacity 0.6s ease,
+            transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
-          img, iframe {
+          img,
+          iframe {
             width: 100%;
             height: 100%;
             display: block;
@@ -1334,13 +1351,21 @@ const codingProfiles = {
     }
 
     @keyframes s-cert-float-1 {
-      0% { transform: translateY(0) rotate(-4deg); }
-      100% { transform: translateY(-15px) rotate(2deg); }
+      0% {
+        transform: translateY(0) rotate(-4deg);
+      }
+      100% {
+        transform: translateY(-15px) rotate(2deg);
+      }
     }
 
     @keyframes s-cert-float-2 {
-      0% { transform: translateY(0) rotate(6deg); }
-      100% { transform: translateY(-10px) rotate(-3deg); }
+      0% {
+        transform: translateY(0) rotate(6deg);
+      }
+      100% {
+        transform: translateY(-10px) rotate(-3deg);
+      }
     }
 
     .s__grid {
@@ -1388,6 +1413,30 @@ const codingProfiles = {
     .s__awards {
       &--allow-overflow {
         overflow: visible;
+      }
+    }
+    .s__about-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+        font: 400 1.25rem / 1.5 font-family(fraktion);
+        color: color(secondary);
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        &:before {
+          content: '→';
+          position: absolute;
+          left: 0;
+          color: color(secondary);
+        }
       }
     }
   }
