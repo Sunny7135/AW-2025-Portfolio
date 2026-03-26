@@ -2,49 +2,78 @@
 // Certificates section
 const certificates = [
   {
-    title: "Google's Adversarial Nibbler Project",
-    org: "School of Computer Science & Engineering",
-    date: "June 2025",
+    title: "Competitive Programming Batch",
+    org: "AlgoTutor",
+    date: "July 2025",
     img: "/images/Sunny kardam - Certificate.png",
-    link: "#"
+    link: "/images/Sunny kardam - Certificate.png",
+    highlights: ["Mastered Advanced Data Structures", "Optimized Algorithmic Performance", "Codeforces Contest Ready"]
   },
   {
-    title: "Data Structures and Algorithms",
-    org: "Skillstone Institute",
-    date: "June 2024",
+    title: "Automation Anywhere (Robotics)",
+    org: "Automation Anywhere",
+    date: "Oct 2025",
     img: "/images/Screenshot 2025-12-19 at 15.39.19.pdf",
-    link: "#"
+    link: "/images/Screenshot 2025-12-19 at 15.39.19.pdf",
+    highlights: ["Robotic Process Automation Lifecycle", "Complex Workflow Automation", "AI-driven Bot Development"]
   },
   {
-    title: "Computer Communications Specialization",
-    org: "University of Colorado System (Coursera)",
-    date: "November 18, 2024",
-    img: "/images/Screenshot 2025-12-19 at 15.39.19.pdf",
-    link: "#"
+    title: "Network Fundamentals",
+    org: "Coursera",
+    date: "April 2025",
+    img: "/images/coursera.pdf",
+    link: "/images/coursera.pdf",
+    highlights: ["TCP/IP Protocol Stack", "Network Security Fundamentals", "Routing & Switching Basics"]
   }
 ];
 ---
 
 <section id="certificates" class="s-certificates" data-intersect>
+  <div class="s-certificates__stars">
+    {Array.from({ length: 12 }).map((_, i) => (
+      <div class={`s-certificates__star s-certificates__star--${i + 1}`}></div>
+    ))}
+  </div>
+
   <div class="s__inner">
-    <h2 class="s__title">Certifications</h2>
-    <p class="s__subtitle">Professional validations of my technical expertise and continuous learning.</p>
+    <div class="s__header">
+      <h2 class="s__title">
+        <span class="s__title__main">Certificates & Achievements</span>
+      </h2>
+    </div>
 
     <div class="s-cert__grid">
-      {certificates.map(cert => (
-        <div class="s-cert__card js-card">
-          <div class="s-cert__image">
-            <img src={cert.img} alt={cert.title} />
-          </div>
-          <div class="s-cert__content">
-            <h3>{cert.title}</h3>
-            <div class="s-cert__meta">
-              <span class="s-cert__org"><span class="icon">🏢</span> {cert.org}</span>
-              <span class="s-cert__date"><span class="icon">📅</span> {cert.date}</span>
+      {certificates.map((cert, index) => (
+        <div class={`s-cert__card js-card s-cert__card--${index + 1}`}>
+          <div class="s-cert__visual">
+            <div class="s-cert__visual__inner">
+              {cert.img.endsWith('.pdf') ? (
+                <iframe src={cert.img} title={cert.title} class="s-cert__iframe" />
+              ) : (
+                <img src={cert.img} alt={cert.title} loading="lazy" />
+              )}
             </div>
-            <a href={cert.link} class="s-cert__button" target="_blank">
-              View Details <span class="arrow">↗</span>
-            </a>
+            <div class="s-cert__overlay">
+              <a href={cert.link} target="_blank" class="s-cert__view-btn">
+                <span>View Full Certificate</span>
+                <span class="icon">↗</span>
+              </a>
+            </div>
+          </div>
+          
+          <div class="s-cert__content">
+            <div class="s-cert__number">{String(index + 1).padStart(2, '0')}</div>
+            <h3 class="s-cert__name">{cert.title}</h3>
+            <div class="s-cert__details">
+              <p class="s-cert__org">{cert.org}</p>
+              <p class="s-cert__date">{cert.date}</p>
+              
+              {cert.highlights && (
+                <ul class="s-cert__highlights">
+                  {cert.highlights.map(h => <li>{h}</li>)}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
       ))}
@@ -54,46 +83,91 @@ const certificates = [
 
 <style lang="scss">
   .s-certificates {
+    position: relative;
     padding: 10rem 0;
     background: color(primary);
+    overflow: hidden;
 
-    @include mq(phone) {
-      padding: 5rem 1rem;
+    &__stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .s__inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    .s__title {
-      font: 700 4rem / 1 font-family(bigger);
-      text-transform: uppercase;
-      color: color(secondary);
-      margin-bottom: 1rem;
-      text-align: center;
+    &__star {
+      position: absolute;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: color(secondary);
+      mask: url('/images/asset-star.svg') center / contain no-repeat;
+      opacity: 0.1;
       
-      @include mq(phone) {
-        font-size: 2.5rem;
+      @for $i from 1 through 12 {
+        &--#{$i} {
+          top: random(100) * 1%;
+          left: random(100) * 1%;
+          animation: s-cert-star-#{$i} (8s + random(8s)) infinite ease-in-out alternate;
+          animation-delay: random(5s) * -1s;
+        }
+
+        @keyframes s-cert-star-#{$i} {
+          0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0.05; }
+          100% { transform: translate(random(40) * 1px - 20px, random(40) * 1px - 20px) scale(1.2) rotate(45deg); opacity: 0.2; }
+        }
       }
     }
 
-    .s__subtitle {
-      font: 400 1.2rem / 1.4 font-family(fraktion);
-      color: color(secondary);
-      text-align: center;
-      margin-bottom: 5rem;
-      opacity: 0.8;
+    .s__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 4rem;
+      position: relative;
+      z-index: 1;
+
+      @include mq(phone) {
+        padding: 0 1.5rem;
+      }
+    }
+
+    .s__header {
+      margin-bottom: 6rem;
+      text-align: left;
+
+      @include mq(phone) {
+        margin-bottom: 3rem;
+      }
+    }
+
+    .s__title {
+      display: flex;
+      flex-direction: column;
+      
+      &__main {
+        font: 700 8rem / 0.8 font-family(bigger);
+        text-transform: uppercase;
+        color: color(secondary);
+        
+        @include mq(tablet) {
+          font-size: 6rem;
+        }
+        @include mq(phone) {
+          font-size: 3.5rem;
+        }
+      }
     }
 
     .s-cert__grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      gap: 3rem;
       
       @include mq(tablet) {
         grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
       }
       
       @include mq(phone) {
@@ -102,78 +176,200 @@ const certificates = [
     }
 
     .s-cert__card {
-      background: rgba(color(secondary), 0.03);
-      border: 1px solid rgba(color(secondary), 0.1);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform 0.3s ease, border-color 0.3s ease;
+      position: relative;
       display: flex;
       flex-direction: column;
+      background: rgba(color(primary), 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid color(secondary);
+      padding: 1rem;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
       &:hover {
-        transform: translateY(-5px);
-        border-color: rgba(color(secondary), 0.3);
+        transform: translateY(-10px);
+        background: color(primary);
+        
+        .s-cert__overlay {
+          opacity: 1;
+        }
+        
+        .s-cert__visual img {
+          transform: scale(1.05);
+        }
       }
     }
 
-    .s-cert__image {
+    .s-cert__visual {
+      position: relative;
       width: 100%;
-      height: 200px;
+      aspect-ratio: 4 / 3;
       background: rgba(color(secondary), 0.05);
-      
+      overflow: hidden;
+      border-bottom: 1px solid color(secondary);
+      margin-bottom: 1.5rem;
+
+      &__inner {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform 0.8s ease;
+      }
+
+      .s-cert__iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        pointer-events: none;
+      }
+    }
+
+    .s-cert__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(color(primary), 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    .s-cert__view-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      background: color(secondary);
+      color: color(primary);
+      text-decoration: none;
+      font: 500 0.9rem font-family(fraktion);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      
+      .icon {
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        background: color(primary);
+        color: color(secondary);
+        border: 1px solid color(secondary);
       }
     }
 
     .s-cert__content {
-      padding: 1.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-
-      h3 {
-        font: 700 1.25rem / 1.3 font-family(fraktion);
-        color: color(secondary);
-        margin: 0 0 1rem 0;
-        min-height: 3.25em;
-      }
+      position: relative;
+      padding-top: 1rem;
     }
 
-    .s-cert__meta {
-      font-size: 0.85rem;
+    .s-cert__number {
+      font: 400 3rem / 1 font-family(editorial);
       color: color(secondary);
-      opacity: 0.7;
+      opacity: 0.15;
+      position: absolute;
+      top: -0.5rem;
+      right: 0;
+    }
+
+    .s-cert__name {
+      font: 700 1.5rem / 1.2 font-family(fraktion);
+      color: color(secondary);
       margin-bottom: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      
-      .icon { margin-right: 4px; }
+      min-height: 3.6rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      @include mq(phone) {
+        font-size: 1.25rem;
+      }
     }
 
-    .s-cert__button {
-      margin-top: auto;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem 1rem;
-      background: rgba(color(secondary), 0.1);
-      color: color(secondary);
-      text-decoration: none;
-      font-family: font-family(fraktion);
-      font-size: 0.9rem;
-      border-radius: 8px;
-      transition: background 0.3s ease;
+    .s-cert__details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
 
-      &:hover {
-        background: color(secondary);
-        color: color(primary);
+    .s-cert__org {
+      font: 500 0.9rem / 1.2 font-family(fraktion);
+      color: color(secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+
+      :global(.theme-contrasted) & {
+        color: color(secondary); // Black is okay here
+      }
+    }
+
+    .s-cert__date {
+      font: 400 0.85rem / 1.2 font-family(fraktion);
+      color: color(secondary);
+      opacity: 0.6;
+
+      :global(.theme-contrasted) & {
+        color: color(white);
+        opacity: 0.8;
+      }
+    }
+
+    .s-cert__highlights {
+      margin-top: 1rem;
+      padding-left: 0.5rem;
+      list-style: none;
+      border-left: 1px solid rgba(color(secondary), 0.2);
+
+      :global(.theme-contrasted) & {
+        border-left-color: rgba(color(white), 0.3);
       }
 
-      .arrow { margin-left: 6px; }
+      li {
+        font: 400 0.8rem / 1.4 font-family(fraktion);
+        color: color(secondary);
+        opacity: 0.7;
+        margin-bottom: 0.25rem;
+        position: relative;
+        padding-left: 0.75rem;
+
+        :global(.theme-contrasted) & {
+          color: color(white);
+          opacity: 0.9;
+        }
+
+        &:before {
+          content: '—';
+          position: absolute;
+          left: 0;
+          opacity: 0.5;
+
+          :global(.theme-contrasted) & {
+            color: color(white);
+          }
+        }
+
+        &:last-child { margin-bottom: 0; }
+      }
+    }
+    
+    // Fix decorative numbers for red theme
+    .s-cert__card:after {
+      :global(.theme-contrasted) & {
+        color: color(white);
+        opacity: 0.15;
+      }
     }
   }
 </style>

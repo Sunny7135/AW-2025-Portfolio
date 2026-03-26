@@ -7,47 +7,93 @@
     <h2 class="s__title">Training Journey</h2>
     <p class="s__subtitle">Strengthening problem-solving skills through intensive specialized training.</p>
 
-    <div class="s-training__card js-card">
-      <div class="s-training__content">
-        <div class="s-training__header">
-          <div class="s-training__icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-            </svg>
+    <div class="s-training__grid">
+      <div class="s-training__card js-card">
+        <div class="s-training__content">
+          <div class="s-training__header">
+            <div class="s-training__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            </div>
+            <div class="s-training__info">
+              <h3>DSA & Concepts Training</h3>
+              <div class="s-training__meta">
+                <span class="s-training__org">CIPHERSCHOOL</span>
+                <span class="s-training__date">Jan 2026 – Feb 2026</span>
+              </div>
+            </div>
           </div>
-          <div class="s-training__info">
-            <h3>Data Structures & Algorithms Training</h3>
-            <div class="s-training__meta">
-              <span class="s-training__org">Skillstone</span>
-              <span class="s-training__date">June 2025 – July 2025</span>
+
+          <div class="s-training__body">
+            <p>
+              Completed an intensive <strong>Data Structures & Algorithms</strong> training program focused on mastering fundamental and advanced coding concepts.
+            </p>
+            
+            <div class="s-training__highlights">
+              <h4><span class="icon">🏆</span> Key Highlights</h4>
+              <ul>
+                <li>Guided by <strong>Mr. Adhiraj Chauhan</strong>.</li>
+                <li>Mastered <strong>Arrays, Linked Lists, Trees, and Graphs</strong>.</li>
+                <li>Solved complex algorithmic challenges with optimized time complexity.</li>
+                <li>Focused on software engineering fundamentals and problem-solving.</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="s-training__body">
-          <p>
-            Completed an intensive <strong>Data Structures & Algorithms</strong> training program designed to strengthen algorithmic thinking and advanced problem-solving skills required for software engineering roles.
-          </p>
-          
-          <div class="s-training__highlights">
-            <h4><span class="icon">🏆</span> Key Highlights</h4>
-            <ul>
-              <li>Solved <strong>500+ coding problems</strong> on platforms like LeetCode and GeeksforGeeks.</li>
-              <li>Mastered advanced concepts including <strong>Trees, Graphs, Dynamic Programming, and Recursion</strong>.</li>
-              <li>Focused on designing optimized algorithms and solving real-world complex problems.</li>
-            </ul>
+        <div class="s-training__media">
+          <div class="media-container media-container--slider">
+            <img src="/images/winter.jpg" alt="Training with Class" class="img-1" />
+            <img src="/images/sirji.jpeg" alt="Me with Mr. Adhiraj Chauhan" class="img-2" />
+            <span class="media-label">Instructor & Class</span>
           </div>
         </div>
-      </div>
+      </div><!-- .s-training__card -->
 
-      <div class="s-training__media">
-        <div class="media-container">
-          <img src="/images/Screenshot 2025-12-19 at 15.39.19.pdf" alt="Training Certificate Preview" />
-          <span class="media-label">Certificate</span>
+      <!-- AlgoTutor Card -->
+      <div class="s-training__card js-card">
+        <div class="s-training__content">
+          <div class="s-training__header">
+            <div class="s-training__icon" style="background: #ef4444;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+              </svg>
+            </div>
+            <div class="s-training__info">
+              <h3>Competitive Programming Batch</h3>
+              <div class="s-training__meta">
+                <span class="s-training__org">AlgoTutor</span>
+                <span class="s-training__date">June 2025 – July 2025</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="s-training__body">
+            <p>
+              Advanced training in <strong>Competitive Programming</strong> geared towards solving complex algorithmic puzzles, mastering advanced data structures, and optimizing code for time-critical contests.
+            </p>
+            
+            <div class="s-training__highlights">
+              <h4><span class="icon">🚀</span> Key Highlights</h4>
+              <ul>
+                <li>Intensive problem-solving on platforms like <strong>Codeforces</strong>, <strong>CodeChef</strong>, and <strong>LeetCode</strong>.</li>
+                <li>Mastered advanced optimization techniques and complex algorithmic paradigms.</li>
+                <li>Participated in time-constrained coding contests to build algorithmic speed and efficiency.</li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+
+        <div class="s-training__media">
+          <div class="media-container">
+            <img src="/images/summerpep.jpeg" alt="Competitive Programming Training" />
+            <span class="media-label">Training Photo</span>
+          </div>
+        </div>
+      </div><!-- .s-training__card -->
+    </div><!-- .s-training__grid -->
   </div>
 </section>
 
@@ -63,41 +109,70 @@
     }
 
     .s__inner {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 4rem;
+
+      @include mq(phone) {
+        padding: 0 1.5rem;
+      }
     }
 
     .s__title {
-      font: 700 4rem / 1 font-family(bigger);
+      font: 700 6.5rem / 0.8 font-family(bigger);
       text-transform: uppercase;
       color: color(secondary);
-      margin-bottom: 1rem;
-      text-align: center;
-      
+      margin-bottom: 2rem;
+      text-align: left;
+
+      @include mq(tablet) {
+        font-size: 5rem;
+      }
       @include mq(phone) {
-        font-size: 2.5rem;
+        font-size: 3rem;
       }
     }
 
     .s__subtitle {
-      font: 400 1.2rem / 1.4 font-family(fraktion);
+      font: 400 1.5rem / 1.4 font-family(fraktion);
       color: color(secondary);
-      text-align: center;
+      text-align: left;
       margin-bottom: 5rem;
-      opacity: 0.8;
+      opacity: 0.7;
+      max-width: 800px;
+
+      @include mq(phone) {
+        font-size: 1.1rem;
+        margin-bottom: 3rem;
+      }
+    }
+
+    .s-training__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+
+      @include mq(tablet) {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+      }
     }
 
     .s-training__card {
       display: flex;
-      background: rgba(color(secondary), 0.03);
-      border: 1px solid rgba(color(secondary), 0.2);
-      border-radius: 20px;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
+      flex-direction: column;
+      background: rgba(color(secondary), 0.02);
+      border: 1px solid color(secondary);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       
-      @include mq(tablet) {
-        flex-direction: column;
+      &:hover {
+        background: color(primary);
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        
+        .s-training__media img {
+          transform: scale(1.05) rotate(1deg);
+        }
       }
     }
 
@@ -112,41 +187,45 @@
 
     .s-training__header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 1.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
 
       .s-training__icon {
         background: color(secondary);
         color: color(primary);
-        padding: 0.75rem;
+        padding: 1rem;
         border-radius: 12px;
+        flex-shrink: 0;
+      }
+
+      .s-training__info {
+        flex: 1;
       }
 
       h3 {
-        font: 700 1.8rem / 1 font-family(fraktion);
+        font: 700 2.22rem / 1 font-family(fraktion);
         color: color(secondary);
-        margin: 0;
+        margin: 0 0 1rem;
         
         @include mq(phone) {
-          font-size: 1.4rem;
+          font-size: 1.6rem;
         }
       }
 
       .s-training__meta {
         display: flex;
-        gap: 1rem;
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-        font-family: font-family(fraktion);
+        flex-direction: column;
+        gap: 0.5rem;
         
         .s-training__org {
-          background: rgba(color(secondary), 0.1);
-          padding: 2px 8px;
-          border-radius: 4px;
+          font: 600 1rem font-family(fraktion);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
         
         .s-training__date {
+          font: 400 0.9rem font-family(fraktion);
           opacity: 0.6;
         }
       }
@@ -155,18 +234,27 @@
     .s-training__body {
       color: color(secondary);
       line-height: 1.6;
-      font-size: 1.1rem;
 
-      p { margin-bottom: 2rem; }
+      p { 
+        font: 400 1.25rem font-family(fraktion);
+        margin-bottom: 2.5rem; 
+        opacity: 0.9;
+        
+        @include mq(phone) {
+          font-size: 1.1rem;
+        }
+      }
 
       .s-training__highlights {
         h4 {
+          font: 600 0.9rem font-family(fraktion);
           text-transform: uppercase;
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
+          letter-spacing: 0.1em;
+          margin-bottom: 1.5rem;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
+          opacity: 0.6;
         }
 
         ul {
@@ -175,15 +263,25 @@
           
           li {
             position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            font: 400 1.1rem font-family(fraktion);
+
+            @include mq(phone) {
+              font-size: 1rem;
+            }
 
             &:before {
               content: '→';
               position: absolute;
               left: 0;
               color: color(secondary);
+              opacity: 0.5;
+            }
+
+            strong {
+              color: color(secondary);
+              font-weight: 600;
             }
           }
         }
@@ -191,44 +289,69 @@
     }
 
     .s-training__media {
-      flex: 0 0 40%;
       background: rgba(color(secondary), 0.05);
-      padding: 2rem;
+      border-top: 1px solid color(secondary);
+      padding: 3rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       
-      @include mq(tablet) {
-        width: 100%;
-        padding: 1rem;
+      @include mq(phone) {
+        padding: 1.5rem;
       }
 
       .media-container {
         position: relative;
         width: 100%;
-        height: 100%;
-        min-height: 250px;
+        aspect-ratio: 16 / 9;
         
         img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
-          border-radius: 12px;
-          border: 1px solid rgba(color(secondary), 0.1);
+          object-fit: cover;
+          border: 1px solid color(secondary);
+          transition: transform 0.8s ease;
         }
 
         .media-label {
           position: absolute;
-          top: 10px;
-          right: 10px;
+          top: 1.5rem;
+          right: 1.5rem;
           background: color(secondary);
           color: color(primary);
-          padding: 2px 8px;
-          font-size: 0.7rem;
+          padding: 0.5rem 1rem;
+          font: 600 0.75rem font-family(fraktion);
           text-transform: uppercase;
-          border-radius: 4px;
+          letter-spacing: 0.1em;
+          z-index: 10;
+        }
+      }
+
+      .media-container--slider {
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          transition: opacity 1.5s ease;
+          
+          &.img-1 {
+            animation: slideFade 10s infinite;
+          }
+          
+          &.img-2 {
+            animation: slideFade 10s infinite 5s;
+          }
         }
       }
     }
+  }
+
+  @keyframes slideFade {
+    0%, 45% { opacity: 1; pointer-events: auto; }
+    55%, 100% { opacity: 0; pointer-events: none; }
   }
 </style>

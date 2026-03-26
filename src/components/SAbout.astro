@@ -106,13 +106,6 @@ const codingProfiles = {
           <span class="s__award__mask"></span>
         </li>
 
-        <li class="s__award s__award--certifications js-award">
-          <span class="s__award__inner">
-            <span class="s__award__name">Certifications</span>
-            <span class="s__award__text">Achievements<br />& Rewards</span>
-          </span>
-          <span class="s__award__mask"></span>
-        </li>
 
         <li class="s__award s__award--fwa js-award">
           <span class="s__award__inner">
@@ -130,22 +123,6 @@ const codingProfiles = {
           <span class="s__award__mask"></span>
         </li>
 
-        <li class="s__award s__award--blank">
-          <div class="s-cert-grid-item s-cert-grid-item--1">
-            <img
-              src="/images/Sunny kardam - Certificate.png"
-              alt="Sunny Kardam Certificate"
-            />
-          </div>
-          <div class="s-cert-grid-item s-cert-grid-item--2">
-            <iframe
-              src="/images/Screenshot 2025-12-19 at 15.39.19.pdf"
-              title="Screenshot Certificate PDF"
-              style="border: none;"
-            >
-            </iframe>
-          </div>
-        </li>
       </ul><!-- .s__content -->
     </div><!-- .s__block -->
   </div><!-- .s__inner -->
@@ -883,36 +860,33 @@ const codingProfiles = {
       padding: 0;
       display: grid;
       grid-template-columns: repeat(4, calc(var(--width) / 4));
-      grid-template-rows: repeat(12, calc(var(--width) / 4 / 0.751));
+      grid-template-rows: repeat(8, calc(var(--width) / 4 / 0.751));
 
-      background: repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 1px,
-        map.get($theme-colors, 'default', 'secondary') 1.5px,
-        map.get($theme-colors, 'default', 'secondary') 2.5px,
-        transparent 3px,
-        map.get($theme-colors, 'default', 'primary') 11px
-      );
+      border: 1px solid color(secondary);
+      border-right: none;
+      border-bottom: none;
 
       list-style: none;
-      overflow: visible;
+      overflow: hidden;
 
       @include mq(tablet-sm) {
         grid-template-columns: repeat(4, calc(var(--width) / 4));
-        grid-template-rows: repeat(16, calc(var(--width) / 4 / 0.75));
+        grid-template-rows: repeat(8, calc(var(--width) / 4 / 0.751));
       }
 
-      @at-root :global(.theme-contrasted) & {
-        background: repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 1px,
-          map.get($theme-colors, 'contrasted', 'secondary') 1.5px,
-          map.get($theme-colors, 'contrasted', 'secondary') 2.5px,
-          transparent 3px,
-          map.get($theme-colors, 'contrasted', 'primary') 11px
-        );
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        box-shadow: inset 0 0 0 1px color(secondary);
+
+        content: '';
+
+        pointer-events: none;
       }
 
       .s__award {
@@ -935,7 +909,7 @@ const codingProfiles = {
           bottom: 0;
           left: -1px;
 
-          border: 1px solid color(secondary);
+          border: 1.5px solid color(secondary);
 
           content: '';
         }
@@ -1130,73 +1104,25 @@ const codingProfiles = {
           }
         }
 
-        &--certifications {
-          grid-column: 1 / 5;
-          grid-row: 8 / 9;
+
+
+        &--CSSDA2016 {
+          grid-column: 3 / 5;
+          grid-row: 6 / 7;
 
           @include mq(tablet-sm) {
-            grid-column: 1 / 5;
-            grid-row: 10 / 11;
-          }
-        }
-
-        &--fwa {
-          grid-column: 4 / 5;
-          grid-row: 5 / 6;
-
-          @include mq(tablet-sm) {
-            grid-column: 3 / 6;
-            grid-row: 6 / 8;
-          }
-        }
-
-        &--gsapOct2024 {
-          grid-column: 1 / 3;
-          grid-row: 9 / 10;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 3;
+            grid-column: 3 / 5;
             grid-row: 6 / 7;
           }
         }
 
-        &--gsapNov2024 {
-          grid-column: 3 / 5;
-          grid-row: 8 / 9;
-
-          @include mq(tablet-sm) {
-            grid-column: 3 / 5;
-            grid-row: 8 / 9;
-          }
-        }
-
-        &--cssda {
-          grid-column: 2 / 4;
+        &--CSSDA2015 {
+          grid-column: 1 / 5;
           grid-row: 7 / 8;
 
           @include mq(tablet-sm) {
-            grid-column: 1 / 3;
-            grid-row: 8 / 10;
-          }
-        }
-
-        &--CSSDA2016 {
-          grid-column: 2 / 5;
-          grid-row: 9 / 10;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 4;
-            grid-row: 11 / 12;
-          }
-        }
-
-        &--CSSDA2015 {
-          grid-column: 1 / 4;
-          grid-row: 10 / 11;
-
-          @include mq(tablet-sm) {
-            grid-column: 2 / 5;
-            grid-row: 12 / 13;
+            grid-column: 1 / 5;
+            grid-row: 7 / 8;
           }
 
           &:before {
@@ -1204,79 +1130,29 @@ const codingProfiles = {
           }
         }
 
-        &--blank {
+        &--github {
+          grid-column: 1 / 2;
+          grid-row: 8 / 9;
+        }
+
+        &--geeksforgeeks {
+          grid-column: 2 / 3;
+          grid-row: 8 / 9;
+        }
+
+        &--hackerrank {
+          grid-column: 3 / 4;
+          grid-row: 8 / 9;
+        }
+
+        &--codechef {
+          grid-column: 4 / 5;
+          grid-row: 8 / 9;
+        }
+
+        &--fwa {
           grid-column: 3 / 5;
           grid-row: 4 / 6;
-
-          @include mq(tablet-sm) {
-            grid-column: 3 / 5;
-            grid-row: 4 / 6;
-          }
-
-          &:after {
-            display: none;
-          }
-
-          svg {
-            position: absolute;
-
-            &:nth-child(1) {
-              top: 50%;
-              left: 50%;
-
-              width: 62.538%;
-              height: 53.1333%;
-
-              transform: translate(-50%, -50%);
-
-              path {
-                fill: none;
-                stroke: color(secondary);
-                stroke-width: 1px;
-              }
-            }
-
-            &:nth-child(2),
-            &:nth-child(3),
-            &:nth-child(4),
-            &:nth-child(5) {
-              position: absolute;
-
-              width: 12.1203%;
-              height: auto;
-
-              path {
-                fill: color(secondary);
-                stroke: none;
-              }
-            }
-
-            &:nth-child(2) {
-              top: 0.5rem;
-              left: 0.5rem;
-            }
-
-            &:nth-child(3) {
-              top: 0.5rem;
-              right: 0.5rem;
-            }
-
-            &:nth-child(4) {
-              bottom: 0.5rem;
-              left: 0.5rem;
-            }
-
-            &:nth-child(5) {
-              bottom: 0.5rem;
-              right: 0.5rem;
-            }
-          }
-
-          path {
-            fill: none;
-            stroke: color(secondary);
-            stroke-width: 1px;
-          }
         }
 
         &.is-active {
@@ -1292,59 +1168,12 @@ const codingProfiles = {
             translate: 0 0;
           }
 
-          .s-cert-grid-item {
-            opacity: 1;
-            transform: scale(1);
-          }
-
           .s__award__mask {
             clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
 
             &:before {
               transform: translate3d(50%, 0, 0);
             }
-          }
-        }
-
-        .s-cert-grid-item {
-          position: absolute;
-          width: 75%;
-          height: auto;
-          box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
-          border: 4px solid color(secondary);
-          background: color(primary);
-          padding: 8px;
-          border-radius: 8px;
-          z-index: 10;
-          opacity: 0;
-          transform: scale(0.8);
-          transition:
-            opacity 0.6s ease,
-            transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-
-          img,
-          iframe {
-            width: 100%;
-            height: 100%;
-            display: block;
-            pointer-events: none;
-          }
-
-          &--1 {
-            top: 50%;
-            left: 5%;
-            width: 100%;
-            transform-origin: center;
-            animation: s-cert-float-1 6s ease-in-out infinite alternate;
-          }
-
-          &--2 {
-            top: 60%;
-            left: 10%;
-            width: 100%;
-            transform-origin: center;
-            animation: s-cert-float-2 7s ease-in-out infinite alternate-reverse;
-            z-index: 9;
           }
         }
       }

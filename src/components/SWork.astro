@@ -8,94 +8,75 @@ const videos = await Astro.glob<{ default: any }>('/src/assets/works/*.mp4')
 // But it’s my site, and editing it in code is faster than setting up yet another headless something.
 // Sometimes "quick and dirty" wins. Don’t @ me.
 const info = {
-  Pen: {
-    title: 'CodePen',
-    site: 'https://codepen.io/wodniack',
+  AICodeReviewer: {
+    title: 'AI Code Reviewer',
+    site: 'https://github.com/Sunny7135/AI_CodeReviewer',
   },
   Dummy1: {
-    title: 'Dummy Project 1',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy2: {
-    title: 'Dummy Project 2',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy3: {
-    title: 'Dummy Project 3',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy4: {
-    title: 'Dummy Project 4',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy5: {
-    title: 'Dummy Project 5',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy6: {
-    title: 'Dummy Project 6',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy7: {
-    title: 'Dummy Project 7',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy8: {
-    title: 'Dummy Project 8',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy9: {
-    title: 'Dummy Project 9',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   },
   Dummy10: {
-    title: 'Dummy Project 10',
-    site: 'https://wodniack.dev',
+    title: 'Project in Progress',
+    site: '#',
   }
 }
 
 let projects = []
-let pens = []
 
-// I removed the video loops to keep the repo lightweight.
-// But this is where I normally fetch and assign the videos for each project in the portfolio.
-videos.forEach((video, index) => {
-  const src = video.default
+// (Removed pens and video logic to focus on projects)
 
-  const key = src.split('-')[0].split('/').pop()
-  const project = info[key]
-  if (!project) return
-  const caption = project.title
-  const site = project.site
-
-  if (key === 'Pen') {
-    pens.push({
-      caption,
-      site,
-      src,
-    })
-  } else {
-    projects.push({
-      caption,
-      site,
-      src,
-    })
-  }
+// AI Code Reviewer (First Project)
+const aiProject = info['AICodeReviewer']
+projects.push({
+  caption: aiProject.title,
+  site: aiProject.site,
+  src: '/images/01.png'
 })
 
-// Create dummy projects with 3 videos each
-for (let i = 1; i <= 14; i++) {
+// Create dummy projects (In Progress)
+for (let i = 1; i <= 10; i++) {
   const key = `Dummy${i}`
   const project = info[key]
   if (!project) continue
 
-  for (let j = 0; j < 4; j++) {
-    projects.push({
-      caption: `${project.title} - Video ${j + 1}`,
-      site: project.site,
-      src: dummyVideo
-    })
-  }
+  projects.push({
+    caption: project.title,
+    site: project.site,
+    src: dummyVideo
+  })
 }
 
 function shuffle(array) {
@@ -111,21 +92,7 @@ function shuffle(array) {
   }
 }
 
-shuffle(projects)
-
-// Add pens in between projects regularly
-let works = []
-let chunkSize = Math.floor(projects.length / pens.length)
-let i = 0
-let j = 0
-while (i < projects.length) {
-  works.push(projects[i])
-  if (j < pens.length && (i + 1) % chunkSize === 0) {
-    works.push(pens[j])
-    j++
-  }
-  i++
-}
+const works = projects
 ---
 
 <section id="work" class="s-work" data-intersect>

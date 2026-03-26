@@ -9,11 +9,11 @@ import ASeparator from './ASeparator.astro'
   <div class="s__content js-content">
     <ASeparator
       class="s__separator js-separator"
-      strings={['Ant', 'oi', 'ne', 'Wo', 'dn', 'ia', 'ck']}
+      strings={['Su', 'nn', 'y']}
     />
 
     <h1 class="s__title">
-      <span class="s__title__word js-word">Creative</span>
+      <span class="s__title__word js-word">Software</span>
       <img
         class="s__title__asset js-star"
         src="/images/asset-star.svg"
@@ -26,12 +26,14 @@ import ASeparator from './ASeparator.astro'
 
     <ASeparator
       class="s__separator js-separator"
-      strings={['Do', 'Things', 'Your', 'Way']}
+      strings={['Ka', 'rd', 'am']}
     />
   </div>
 
   <div class="s-hero__profile js-profile">
-    <img src="/images/IMG_2.jpeg" alt="Sunny Kardam Profile" />
+    <div class="s-hero__profile-inner js-profile-inner">
+      <img src="/images/min.jpg" alt="Sunny Kardam Profile" />
+    </div>
   </div>
 
   <div class="s__border js-border"></div>
@@ -254,14 +256,7 @@ import ASeparator from './ASeparator.astro'
         0.45,
       )
 
-      tl.call(() => {
-        Draggable.create(profile, {
-          type: 'x,y',
-          bounds: document.body,
-          inertia: true,
-        })
-      })
-
+      // Restore separators animation
       tl.from(
         separators,
         {
@@ -274,6 +269,22 @@ import ASeparator from './ASeparator.astro'
 
       tl.call(() => {
         this.isWaiting = false
+        
+        // Initialize Draggable after intro
+        const profileEl = profile as HTMLElement
+        const profileInner = profileEl.querySelector('.js-profile-inner') as HTMLElement
+        
+        Draggable.create(profileEl, {
+          type: 'x,y',
+          bounds: document.body,
+          inertia: true,
+          onPress: () => {
+            profileInner.style.animationPlayState = 'paused'
+          },
+          onRelease: () => {
+            profileInner.style.animationPlayState = 'running'
+          }
+        })
       })
     }
 
@@ -387,26 +398,28 @@ import ASeparator from './ASeparator.astro'
 
     .s-hero__profile {
       position: absolute;
-      bottom: 8%;
-      right: 10%;
+      bottom: 2%;
+      right: 2%;
       width: 320px;
-      border: 4px solid color(secondary);
-      background-color: color(primary);
-      padding: 10px;
-      box-shadow: 14px 14px 0 color(secondary);
-      border-radius: 12px;
-      overflow: hidden; // Revert to hidden
       z-index: 10;
-
-      animation: s-hero-breathe 4s cubic-bezier(0.45, 0, 0.55, 1) infinite
-        alternate;
-
       cursor: grab;
       touch-action: none;
 
       &:active {
         cursor: grabbing;
-        animation-play-state: paused;
+      }
+
+      &-inner {
+        width: 100%;
+        height: 100%;
+        border: 4px solid color(secondary);
+        background-color: color(primary);
+        padding: 10px;
+        box-shadow: 14px 14px 0 color(secondary);
+        border-radius: 12px;
+        overflow: hidden;
+        animation: s-hero-breathe 4s cubic-bezier(0.45, 0, 0.55, 1) infinite
+          alternate;
       }
 
       @include mq(tablet) {
@@ -426,7 +439,8 @@ import ASeparator from './ASeparator.astro'
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
+        object-position: center 20%;
         pointer-events: none;
       }
     }
@@ -476,11 +490,11 @@ import ASeparator from './ASeparator.astro'
 
       cursor: default;
 
-      font: 700 min(15vw, 18.5rem) / 0.8 font-family(bigger);
+      font: 700 min(11vw, 15rem) / 0.8 font-family(bigger);
       text-transform: uppercase;
 
       @include mq(desktop-xs) {
-        font-size: 14vw;
+        font-size: 12vw;
       }
 
       @include mq(tablet) {
@@ -489,11 +503,11 @@ import ASeparator from './ASeparator.astro'
         flex-wrap: wrap;
         justify-content: flex-start;
 
-        font-size: calc(31vw - 1rem);
+        font-size: calc(26vw - 1rem);
       }
 
       @include mq(phone) {
-        font-size: calc(31vw - 0.75rem);
+        font-size: calc(26vw - 0.75rem);
       }
 
       &__word {
