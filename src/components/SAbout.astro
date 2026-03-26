@@ -30,7 +30,7 @@ const codingProfiles = {
     </div><!-- .s__block -->
 
     <div class="s__block s__block--awards">
-      <h2 class="s__title">Coding Profiles</h2>
+      <h2 class="s__title">Technical Recognition</h2>
 
       <ul class="s__awards">
         <li
@@ -90,35 +90,38 @@ const codingProfiles = {
           <span class="s__award__mask"></span>
         </li>
 
-        <li class="s__award s__award--awwwards js-award">
+        <li
+          class="s__award s__award--github js-award"
+          onclick="window.open('https://github.com/Sunny7135/', '_blank')"
+          style="cursor: pointer;"
+        >
           <span class="s__award__inner">
-            <span class="s__award__name">Awwwards</span>
-            <span class="s__award__text">Site of the Day<br /></span>
+            <span class="s__award__name">GitHub</span>
+            <span class="s__award__text">Open Source<br />Contributor</span>
           </span>
           <span class="s__award__mask"></span>
         </li>
 
-        <li class="s__award s__award--netMag2016 js-award">
+        <li class="s__award s__award--dsa js-award">
           <span class="s__award__inner">
-            <span class="s__award__name">Net<br />Magazine</span>
-            <span class="s__award__text">Site of the<br />Month 2016</span>
+            <span class="s__award__name">Problem<br />Solver</span>
+            <span class="s__award__text">500+ DSA Solutions</span>
           </span>
           <span class="s__award__mask"></span>
         </li>
 
-
-        <li class="s__award s__award--fwa js-award">
+        <li class="s__award s__award--web js-award">
           <span class="s__award__inner">
-            <span class="s__award__name">FWA</span>
-            <span class="s__award__text">FOTD<br />2016</span>
+            <span class="s__award__name">MERN<br />Stack</span>
+            <span class="s__award__text">Full-Stack Architect</span>
           </span>
           <span class="s__award__mask"></span>
         </li>
 
-        <li class="s__award s__award--cssda js-award">
+        <li class="s__award s__award--ai js-award">
           <span class="s__award__inner">
-            <span class="s__award__name">CSSDA</span>
-            <span class="s__award__text">Site of the<br />Day 2016</span>
+            <span class="s__award__name">AI / ML</span>
+            <span class="s__award__text">Intelligent System Solutions</span>
           </span>
           <span class="s__award__mask"></span>
         </li>
@@ -586,7 +589,7 @@ const codingProfiles = {
         ? smileyImages.contrasted
         : smileyImages.main
 
-      if (award.classList.contains('s__award--leetcode-main')) {
+      if (award.classList.contains('s__award--leetcode-main') || award.classList.contains('s__award--dsa')) {
         image = smileyImages.leetcode
       } else if (award.classList.contains('s__award--webby2025')) {
         image = smileyImages.codolio
@@ -1064,95 +1067,51 @@ const codingProfiles = {
           grid-row: 3 / 4;
         }
 
-        &--awwwards {
+        &--github {
           grid-column: 1 / 3;
           grid-row: 4 / 6;
 
-          @include mq(tablet-sm) {
-            grid-column: 1 / 3;
-            grid-row: 4 / 6;
-          }
-
           .s__award__name {
-            font-size: 8.625rem;
+            font-size: 8rem;
 
-            @include mq(desktop-xs) {
-              font-size: 6.5rem;
-            }
-
-            @include mq(tablet-sm) {
-              font-size: 5.5rem;
-            }
-
-            @include mq(phone) {
-              font-size: 4rem;
-            }
-
-            @include mq(phone-sm) {
-              font-size: 3.5rem;
-            }
+            @include mq(desktop-xs) { font-size: 6rem; }
+            @include mq(tablet-sm) { font-size: 5rem; }
+            @include mq(phone) { font-size: 4rem; }
           }
         }
 
-        &--netMag2016 {
+        &--dsa {
           grid-column: 1 / 3;
           grid-row: 6 / 7;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 3;
-            grid-row: 6 / 7;
-          }
         }
 
+        &--web {
+          grid-column: 3 / 5;
+          grid-row: 4 / 6;
+        }
 
-
-        &--CSSDA2016 {
+        &--ai {
           grid-column: 3 / 5;
           grid-row: 6 / 7;
-
-          @include mq(tablet-sm) {
-            grid-column: 3 / 5;
-            grid-row: 6 / 7;
-          }
-        }
-
-        &--CSSDA2015 {
-          grid-column: 1 / 5;
-          grid-row: 7 / 8;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 5;
-            grid-row: 7 / 8;
-          }
-
-          &:before {
-            bottom: -1px;
-          }
-        }
-
-        &--github {
-          grid-column: 1 / 2;
-          grid-row: 8 / 9;
         }
 
         &--geeksforgeeks {
-          grid-column: 2 / 3;
-          grid-row: 8 / 9;
+          grid-column: 1 / 3;
+          grid-row: 7 / 8;
         }
 
         &--hackerrank {
-          grid-column: 3 / 4;
-          grid-row: 8 / 9;
+          grid-column: 3 / 5;
+          grid-row: 7 / 8;
         }
 
         &--codechef {
-          grid-column: 4 / 5;
+          grid-column: 1 / 5;
           grid-row: 8 / 9;
-        }
-
-        &--fwa {
-          grid-column: 3 / 5;
-          grid-row: 4 / 6;
+          
+          &:before {
+            bottom: -1px;
+          }
         }
 
         &.is-active {
