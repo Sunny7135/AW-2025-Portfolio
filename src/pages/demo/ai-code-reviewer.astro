@@ -135,9 +135,13 @@ def login_user(username, password):
 - **Severity**: High (Will crash application immediately at runtime).
 - **Location**: Attempting to dereference \`*ptr\` while \`ptr\` is set to \`nullptr\`.
 
+---
+
 ### 💡 Explanation & Recommendations
 - Dereferencing a null pointer attempts to read invalid memory address \`0x0\`, causing an immediate runtime crash.
 - **Fix**: Always verify pointer validity before dereferencing or use modern C++ RAII smart pointers (\`std::unique_ptr\` / \`std::shared_ptr\`).
+
+---
 
 ### ✨ Optimal Corrected Solution
 \`\`\`cpp
@@ -161,9 +165,13 @@ int main() {
 - 🚨 **CRITICAL VULNERABILITY**: SQL Injection (CVE Security Flaw).
 - **Severity**: Critical (Attacker can alter query structure to gain unauthorized access).
 
+---
+
 ### 💡 Explanation & Recommendations
 - Concatenating raw user inputs into SQL strings allows attackers to inject malicious payloads (e.g. \`' OR '1'='1\`).
 - **Fix**: Use parameterized queries / prepared statements.
+
+---
 
 ### ✨ Optimal Corrected Solution
 \`\`\`python
@@ -184,9 +192,13 @@ def login_user(username, password):
 - ⚠️ **PERFORMANCE BOTTLE-NECK**: Inefficient $O(n^3)$ Nested Iteration.
 - **Severity**: Moderate to High (Extremely slow on larger data arrays).
 
+---
+
 ### 💡 Explanation & Recommendations
 - Double nested loops combined with \`.includes()\` creates cubic $O(n^3)$ time complexity.
 - **Fix**: Use a Hash Set to reduce execution time to linear $O(n)$.
+
+---
 
 ### ✨ Optimal Corrected Solution
 \`\`\`javascript
@@ -276,9 +288,13 @@ function findDuplicates(arr) {
 - **Syntax Check**: Code syntax is valid.
 - **Security Audit**: No obvious high-risk vulnerabilities detected.
 
+---
+
 ### 💡 Suggestions & Best Practices
 - Add docstrings explaining function inputs.
 - Ensure proper error boundary handling.
+
+---
 
 ### ✨ Optimal Corrected Solution
 \`\`\`${lang.toLowerCase()}
@@ -290,15 +306,22 @@ ${code}
           statusTag.textContent = 'Analysis Complete';
           statusTag.className = 'status-tag complete';
           
-          // Simple markdown-to-html conversion for display
-          const formatted = responseText
+          // Fix markdown parsing: Replace code blocks FIRST before inline backticks
+          let html = responseText
+            // Code blocks
+            .replace(/```(\w*)\n([\s\S]*?)```/g, '<div class="code-block-wrapper"><div class="code-block-header">$1</div><pre class="res-code-block"><code>$2</code></pre></div>')
+            // Headings
             .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1</h3>')
+            // Horizontal rule
+            .replace(/---\n/g, '<hr class="res-divider" />')
+            // Bold
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            // Inline code
             .replace(/`([^`]+)`/g, '<code class="res-inline-code">$1</code>')
-            .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="res-code-block"><code>$2</code></pre>')
+            // Lists
             .replace(/- (.*?)\n/g, '<li class="res-item">$1</li>');
 
-          outputBox.innerHTML = `<div class="analysis-result">${formatted}</div>`;
+          outputBox.innerHTML = `<div class="analysis-result">${html}</div>`;
 
         } catch (err) {
           statusTag.textContent = 'Error';
@@ -585,11 +608,18 @@ ${code}
       }
 
       .res-heading {
-        font-size: 0.95rem;
+        font-size: 1rem;
+        font-weight: 700;
         color: #38bdf8;
-        margin: 1.25rem 0 0.5rem 0;
+        margin: 1.5rem 0 0.75rem 0;
         border-left: 3px solid #38bdf8;
-        padding-left: 0.5rem;
+        padding-left: 0.6rem;
+      }
+
+      .res-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 1.5rem 0;
       }
 
       .res-inline-code {
@@ -598,22 +628,46 @@ ${code}
         padding: 0.15rem 0.35rem;
         border-radius: 4px;
         font-size: 0.85rem;
+        font-family: 'Consolas', 'Fira Code', monospace;
       }
 
-      .res-code-block {
-        background: #0f172a;
-        padding: 1rem;
+      .code-block-wrapper {
+        margin: 1rem 0;
         border-radius: 8px;
+        overflow: hidden;
         border: 1px solid #1e293b;
-        color: #f1f5f9;
-        font-family: monospace;
-        font-size: 0.85rem;
-        overflow-x: auto;
+        background: #090d16;
+
+        .code-block-header {
+          background: #0f172a;
+          padding: 0.35rem 0.75rem;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #64748b;
+          text-transform: uppercase;
+          border-bottom: 1px solid #1e293b;
+        }
+
+        .res-code-block {
+          margin: 0;
+          padding: 1rem;
+          color: #f1f5f9;
+          font-family: 'Consolas', 'Fira Code', 'Monaco', monospace;
+          font-size: 0.88rem;
+          line-height: 1.5;
+          overflow-x: auto;
+
+          code {
+            white-space: pre;
+            display: block;
+          }
+        }
       }
 
       .res-item {
-        margin-bottom: 0.35rem;
-        line-height: 1.4;
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+        color: #cbd5e1;
       }
 
       @keyframes spin {
