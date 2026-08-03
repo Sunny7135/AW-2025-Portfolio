@@ -243,6 +243,38 @@ function findDuplicates(arr) {
 \`\`\``
       }
 
+      function colorizeCodeLine(rawLine: string): string {
+        // 1. Escape HTML special characters
+        let safe = rawLine
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        // Handle preprocessor directive (#include <iostream>)
+        if (safe.trim().startsWith('#')) {
+          return `<span style="color:#f472b6; font-weight:700;">${safe}</span>`;
+        }
+
+        // 2. Separate code and comment cleanly
+        let mainCode = safe;
+        let commentHtml = '';
+
+        const commentIdx = safe.indexOf('//');
+        if (commentIdx !== -1) {
+          mainCode = safe.substring(0, commentIdx);
+          const commentText = safe.substring(commentIdx);
+          commentHtml = `<span style="color:#6ee7b7; font-style:italic; font-family:Georgia, serif; font-weight:500;">${commentText}</span>`;
+        }
+
+        // 3. Highlight strings on mainCode
+        mainCode = mainCode.replace(/(".*?"|'.*?')/g, '<span style="color:#fde047;">$1</span>');
+
+        // 4. Highlight keywords on mainCode
+        mainCode = mainCode.replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct|main|std|cout|endl)\b/g, '<span style="color:#38bdf8; font-weight:bold;">$1</span>');
+
+        return mainCode + commentHtml;
+      }
+
       const languageSelect = document.getElementById('language') as HTMLSelectElement;
       const codeInput = document.getElementById('code-input') as HTMLTextAreaElement;
       const reviewBtn = document.getElementById('review-btn') as HTMLButtonElement;
@@ -361,20 +393,20 @@ ${code}
           statusTag.textContent = 'Analysis Complete';
           statusTag.className = 'status-tag complete';
           
-          // Pure, rock-solid Markdown Code Block Parser - ZERO HTML tag or string attribute artifacts!
+          // Pure, rock-solid Syntax-Colored Code Block Parser with Inline Styles
           let html = responseText
             .replace(/```([^\n]*)\n([\s\S]*?)```/g, (_, langName, rawCode) => {
-              const cleanCode = rawCode.trim()
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
+              const cleanCode = rawCode.trim();
+              const lines = cleanCode.split('\n');
+
+              const coloredLines = lines.map(l => colorizeCodeLine(l)).join('\n');
 
               return `<div class="code-block-wrapper">
                 <div class="code-block-header">
                   <span>💻 ${langName.trim().toUpperCase() || 'OPTIMAL SOLUTION'}</span>
-                  <button type="button" class="copy-code-btn" data-code="${encodeURIComponent(rawCode.trim())}">Copy Code</button>
+                  <button type="button" class="copy-code-btn" data-code="${encodeURIComponent(cleanCode)}">Copy Code</button>
                 </div>
-                <pre class="res-code-block"><code>${cleanCode}</code></pre>
+                <pre class="res-code-block"><code>${coloredLines}</code></pre>
               </div>`;
             })
             // Headings
@@ -752,7 +784,7 @@ ${code}
         .res-code-block {
           margin: 0;
           padding: 1.25rem;
-          color: #7dd3fc;
+          color: #e2e8f0;
           background: #090d16;
           font-family: 'Consolas', 'Fira Code', 'Monaco', monospace;
           font-size: 0.95rem;
@@ -761,7 +793,6 @@ ${code}
           word-break: break-word;
 
           code {
-            color: #7dd3fc;
             font-family: inherit;
           }
         }
