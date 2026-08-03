@@ -308,16 +308,23 @@ ${code}
           statusTag.textContent = 'Analysis Complete';
           statusTag.className = 'status-tag complete';
           
-          // Advanced Markdown & Code Syntax Parser with Cursive Comments
+          // Advanced Markdown Parser - Handles language tags with symbols (+, #) and escapes HTML tags (<iostream>)
           let html = responseText
-            // Code blocks with syntax highlighting & cursive comments
-            .replace(/```(\w*)\n([\s\S]*?)```/g, (_, langName, codeContent) => {
-              const highlighted = codeContent
+            // Match code blocks with any language identifier (cpp, c++, c#, py, etc.)
+            .replace(/```([^\n]*)\n([\s\S]*?)```/g, (_, langName, rawCode) => {
+              // 1. Escape HTML tags so <iostream> is not swallowed
+              const safeCode = rawCode
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+              // 2. Highlight comments & keywords
+              const highlighted = safeCode
                 .replace(/(\/\/.*|\#.*)/g, '<span class="code-comment">$1</span>')
-                .replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct)\b/g, '<span class="code-keyword">$1</span>')
+                .replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct|main)\b/g, '<span class="code-keyword">$1</span>')
                 .replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>');
 
-              return `<div class="code-block-wrapper"><div class="code-block-header">${langName || 'SOLUTION'}</div><pre class="res-code-block"><code>${highlighted}</code></pre></div>`;
+              return `<div class="code-block-wrapper"><div class="code-block-header">${langName.trim() || 'SOLUTION'}</div><pre class="res-code-block"><code>${highlighted}</code></pre></div>`;
             })
             // Headings
             .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1</h3>')
@@ -641,7 +648,7 @@ ${code}
       }
 
       .code-block-wrapper {
-        margin: 1rem 0;
+        margin: 1.25rem 0;
         border-radius: 8px;
         overflow: hidden;
         border: 1px solid #1e293b;
@@ -664,7 +671,8 @@ ${code}
           font-family: 'Consolas', 'Fira Code', 'Monaco', monospace;
           font-size: 0.9rem;
           line-height: 1.6;
-          white-space: pre;
+          white-space: pre-wrap;
+          word-break: break-word;
           tab-size: 4;
           overflow-x: auto;
         }
@@ -674,7 +682,7 @@ ${code}
       .code-comment {
         font-style: italic;
         font-family: 'Georgia', 'Playfair Display', serif;
-        color: #6ee7b7; /* Distinct glowing mint green for cursive comments */
+        color: #6ee7b7 !important; /* Glowing Emerald Green for Cursive Comments */
         font-weight: 500;
       }
 
