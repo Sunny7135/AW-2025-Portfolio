@@ -310,6 +310,9 @@ const codingProfiles = {
      * Award interaction handler
      */
     onAwardInteraction(award) {
+      if (award.dataset.hasTriggered) return
+      award.dataset.hasTriggered = 'true'
+
       award.classList.add('is-active')
 
       this.throwSmileys(award)
