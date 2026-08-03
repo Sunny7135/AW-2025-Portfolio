@@ -35,29 +35,31 @@ const codingProfiles = {
       <ul class="s__awards">
         <li
           class="s__award s__award--leetcode-main js-award"
-          onclick="window.open('https://leetcode.com/u/sunnykardam/', '_blank')"
-          style="cursor: pointer; min-height: 9rem;"
+          onclick="window.open('https://leetcode.com/u/Sunny_Kardam/', '_blank')"
+          style="cursor: pointer; min-height: 10.5rem;"
         >
-          <span class="s__award__inner" style="gap: 0.3rem;">
-            <span class="s__award__name" style="color: #f97316; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.17 6.2a1.375 1.375 0 0 0-.343.834h-.001a1.375 1.375 0 0 0 .344.975l.002.002.002.002 4.437 4.708a1.375 1.375 0 0 0 1.954-1.93l-3.327-3.53 4.38-4.653A1.375 1.375 0 0 0 13.483 0zm-7.65 8.761a1.374 1.374 0 0 0-.962.438L.438 13.637a1.375 1.375 0 0 0 0 1.954l4.433 4.433a1.375 1.375 0 0 0 1.954-1.954L3.37 14.615l3.526-3.526a1.375 1.375 0 0 0-.063-1.954 1.374 1.374 0 0 0-.962-.374zm11.97 0a1.374 1.374 0 0 0-.96.438l-4.435 4.708a1.375 1.375 0 0 0 1.953 1.93l3.328-3.53 3.527 3.526a1.375 1.375 0 0 0 1.953-1.954l-4.433-4.433a1.374 1.374 0 0 0-.933-.685z"/></svg>
+          <span class="s__award__inner" style="gap: 0.4rem; padding: 0.5rem 0;">
+            <span class="s__award__name" style="color: #160000; font-weight: 800; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em;">
               LeetCode Profile
             </span>
-            <span class="s__award__counter" style="font-size: 0.85rem; font-weight: 700;">
-              Total Solved: <span id="lc-total">206+</span>
+            
+            <span class="s__award__counter" style="color: #160000; font-size: 1.15rem; font-weight: 800;">
+              Total Solved: <span id="lc-total">395</span>
             </span>
 
-            <div class="lc-breakdown" style="display: flex; gap: 0.4rem; justify-content: center; font-size: 0.72rem; font-weight: 600; margin: 0.15rem 0;">
-              <span style="color: #22c55e;">Easy: <span id="lc-easy">74</span></span>
-              <span style="color: #eab308;">Med: <span id="lc-medium">108</span></span>
-              <span style="color: #ef4444;">Hard: <span id="lc-hard">24</span></span>
+            <div class="lc-breakdown" style="display: flex; gap: 0.8rem; justify-content: center; font-size: 0.95rem; font-weight: 700; color: #160000; margin: 0.25rem 0;">
+              <span>Easy: <strong id="lc-easy">132</strong></span>
+              <span>|</span>
+              <span>Med: <strong id="lc-medium">202</strong></span>
+              <span>|</span>
+              <span>Hard: <strong id="lc-hard">61</strong></span>
             </div>
 
-            <span class="lc-badges" style="font-size: 0.68rem; color: #a855f7; font-weight: 700; background: rgba(168, 85, 247, 0.12); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid rgba(168, 85, 247, 0.3);">
-              🏆 <span id="lc-badges-text">50 Days & 100 Days Badges</span>
+            <span class="lc-badges" style="font-size: 0.85rem; color: #160000; font-weight: 700; margin-top: 0.1rem;">
+              🏆 50 Days & 100 Days Streak Badges
             </span>
 
-            <span class="s__award__counter" style="text-decoration: underline; font-size: 0.7rem; margin-top: 0.15rem; color: #f97316;">
+            <span class="s__award__counter" style="text-decoration: underline; font-size: 0.8rem; color: #160000; margin-top: 0.2rem; font-weight: 600;">
               View Profile ↗
             </span>
           </span>
@@ -244,34 +246,37 @@ const codingProfiles = {
     }
 
     async fetchLeetCodeLiveStats() {
-      try {
-        const res = await fetch('https://alfa-leetcode-api.onrender.com/sunnykardam/solved')
-        if (res.ok) {
-          const data = await res.json()
-          if (data && data.solvedProblem) {
-            const totEl = document.getElementById('lc-total')
-            const easyEl = document.getElementById('lc-easy')
-            const medEl = document.getElementById('lc-medium')
-            const hardEl = document.getElementById('lc-hard')
-            if (totEl) totEl.textContent = data.solvedProblem
-            if (easyEl) easyEl.textContent = data.easySolved
-            if (medEl) medEl.textContent = data.mediumSolved
-            if (hardEl) hardEl.textContent = data.hardSolved
-          }
-        }
-      } catch (e) {}
+      const username = 'Sunny_Kardam'
+      const apis = [
+        `https://leetcode-api-faisalshohag.vercel.app/${username}`,
+        `https://alfa-leetcode-api.onrender.com/${username}/solved`,
+      ]
 
-      try {
-        const badgeRes = await fetch('https://alfa-leetcode-api.onrender.com/sunnykardam/badges')
-        if (badgeRes.ok) {
-          const badgeData = await badgeRes.json()
-          if (badgeData && badgeData.badges && badgeData.badges.length > 0) {
-            const badgeNames = badgeData.badges.map((b: any) => b.displayName).join(' & ')
-            const badgeTextEl = document.getElementById('lc-badges-text')
-            if (badgeTextEl && badgeNames) badgeTextEl.textContent = badgeNames
+      for (const apiUrl of apis) {
+        try {
+          const res = await fetch(apiUrl)
+          if (res.ok) {
+            const data = await res.json()
+            if (data) {
+              const totEl = document.getElementById('lc-total')
+              const easyEl = document.getElementById('lc-easy')
+              const medEl = document.getElementById('lc-medium')
+              const hardEl = document.getElementById('lc-hard')
+
+              const total = data.totalSolved ?? data.solvedProblem
+              const easy = data.easySolved
+              const med = data.mediumSolved
+              const hard = data.hardSolved
+
+              if (totEl && total !== undefined) totEl.textContent = total
+              if (easyEl && easy !== undefined) easyEl.textContent = easy
+              if (medEl && med !== undefined) medEl.textContent = med
+              if (hardEl && hard !== undefined) hardEl.textContent = hard
+              if (total !== undefined) break
+            }
           }
-        }
-      } catch (e) {}
+        } catch (e) {}
+      }
     }
 
     /**
