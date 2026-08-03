@@ -93,17 +93,14 @@ import '../../styles/global.scss'
         semicolon: {
           lang: 'C++',
           code: `#include <iostream>
-
 int main() {
     std::cout << "Testing project..." << std::endl
-
     return 0;
 }`
         },
         nullptr: {
           lang: 'C++',
           code: `#include <iostream>
-
 int main() {
     int* ptr = nullptr;
     std::cout << *ptr << std::endl; // Runtime Crash / Null Pointer Dereference
@@ -144,7 +141,7 @@ def login_user(username, password):
         semicolon: `### 🐛 Identified Bugs & Severity (C++)
 - 🚨 **SYNTAX ERROR**: Missing Semicolon \`;\` at end of statement.
 - **Severity**: High (Compilation Error / Build Failure).
-- **Location**: \`std::cout\` statement on line 4 is missing terminating semicolon \`;\`.
+- **Location**: \`std::cout\` statement on line 3 is missing terminating semicolon \`;\`.
 
 ---
 
@@ -157,10 +154,8 @@ def login_user(username, password):
 ### ✨ Optimal Corrected Solution
 \`\`\`cpp
 #include <iostream>
-
 int main() {
     std::cout << "Testing project..." << std::endl; // Corrected: Added missing semicolon ';'
-
     return 0;
 }
 \`\`\``,
@@ -181,18 +176,14 @@ int main() {
 ### ✨ Optimal Corrected Solution
 \`\`\`cpp
 #include <iostream>
-
 int main() {
     int value = 42;
     int* ptr = &value; // Point to valid memory address
-    
-    // Check if pointer is non-null before accessing
     if (ptr != nullptr) {
         std::cout << "Value: " << *ptr << std::endl;
     } else {
         std::cerr << "Error: Pointer is null!" << std::endl;
     }
-    
     return 0; // Return successfully
 }
 \`\`\``,
@@ -216,11 +207,9 @@ import sqlite3
 def login_user(username, password):
     db = sqlite3.connect('app.db')
     cursor = db.cursor()
-    
     # Safe parameterized query prevents injection
     query = "SELECT * FROM users WHERE username = ? AND password = ?"
     cursor.execute(query, (username, password))
-    
     return cursor.fetchone()
 \`\`\``,
 
@@ -241,7 +230,6 @@ def login_user(username, password):
 function findDuplicates(arr) {
   const seen = new Set();
   const duplicates = new Set();
-  
   // Linear O(n) scan using set lookup
   for (const item of arr) {
     if (seen.has(item)) {
@@ -424,7 +412,7 @@ ${code}
               </div>`;
             })
             // Headings
-            .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1</h3>')
+            .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1 academic-font</h3>')
             // Horizontal rule
             .replace(/---\n/g, '<hr class="res-divider" />')
             // Bold
