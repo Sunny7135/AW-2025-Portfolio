@@ -244,34 +244,34 @@ function findDuplicates(arr) {
       }
 
       function highlightCodeLine(line: string): string {
+        // 1. Escape HTML special characters
         let safe = line
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;');
 
-        const tokens: string[] = [];
+        // 2. Separate comment if present
+        let mainCode = safe;
+        let commentPart = '';
+        
+        const commentIdx = safe.indexOf('//');
+        const hashIdx = safe.indexOf('#');
 
-        // 1. Protect Strings
-        safe = safe.replace(/(".*?"|'.*?')/g, (str) => {
-          tokens.push(`<span class="code-string">${str}</span>`);
-          return `___TOK_${tokens.length - 1}___`;
-        });
+        if (commentIdx !== -1) {
+          mainCode = safe.substring(0, commentIdx);
+          commentPart = `<span class="code-comment">${safe.substring(commentIdx)}</span>`;
+        } else if (hashIdx === 0) {
+          // Preprocessor directive like #include <iostream>
+          return `<span class="code-keyword">${safe}</span>`;
+        }
 
-        // 2. Protect Comments
-        safe = safe.replace(/(\/\/.*|\#.*)/g, (comment) => {
-          tokens.push(`<span class="code-comment">${comment}</span>`);
-          return `___TOK_${tokens.length - 1}___`;
-        });
+        // 3. Highlight keywords in mainCode
+        mainCode = mainCode.replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct|main|std|cout|endl)\b/g, '<span class="code-keyword">$1</span>');
 
-        // 3. Highlight Keywords
-        safe = safe.replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct|main|std|cout|endl)\b/g, '<span class="code-keyword">$1</span>');
+        // 4. Highlight strings in mainCode
+        mainCode = mainCode.replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>');
 
-        // 4. Restore Protected Tokens
-        tokens.forEach((tok, idx) => {
-          safe = safe.replace(`___TOK_${idx}___`, tok);
-        });
-
-        return safe;
+        return mainCode + commentPart;
       }
 
       const languageSelect = document.getElementById('language') as HTMLSelectElement;
@@ -392,27 +392,27 @@ ${code}
           statusTag.textContent = 'Analysis Complete';
           statusTag.className = 'status-tag complete';
           
-          // Protected Syntax Parser - Zero attribute string corruption
+          // Pure Syntax Highlighter - Clean lines without line numbers or token artifacts
           let html = responseText
             .replace(/```([^\n]*)\n([\s\S]*?)```/g, (_, langName, rawCode) => {
               const cleanCode = rawCode.trim();
               const lines = cleanCode.split('\n');
 
-              const linesHtml = lines.map((line, idx) => {
+              const linesHtml = lines.map((line) => {
                 const safeHighlighted = highlightCodeLine(line);
-                return `<div class="code-line"><span class="line-num">${idx + 1}</span><span class="line-code">${safeHighlighted}</span></div>`;
-              }).join('');
+                return `<div class="code-line">${safeHighlighted}</div>`;
+              }).join('\n');
 
               return `<div class="code-block-wrapper">
                 <div class="code-block-header">
                   <span>💻 ${langName.trim().toUpperCase() || 'OPTIMAL SOLUTION'}</span>
                   <button type="button" class="copy-code-btn" data-code="${encodeURIComponent(cleanCode)}">Copy Code</button>
                 </div>
-                <div class="res-code-block">${linesHtml}</div>
+                <pre class="res-code-block"><code>${linesHtml}</code></pre>
               </div>`;
             })
             // Headings
-            .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1 academic-font</h3>')
+            .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1</h3>')
             // Horizontal rule
             .replace(/---\n/g, '<hr class="res-divider" />')
             // Bold
@@ -785,34 +785,16 @@ ${code}
 
         .res-code-block {
           margin: 0;
-          padding: 1rem 0;
+          padding: 1.25rem;
           color: #f1f5f9;
           font-family: 'Consolas', 'Fira Code', 'Monaco', monospace;
-          font-size: 0.9rem;
+          font-size: 0.92rem;
           line-height: 1.6;
+          overflow-x: auto;
 
           .code-line {
-            display: flex;
-            padding: 0 1rem;
-
-            &:hover {
-              background: rgba(255, 255, 255, 0.03);
-            }
-
-            .line-num {
-              width: 2.2rem;
-              user-select: none;
-              color: #475569;
-              text-align: right;
-              padding-right: 1rem;
-              font-size: 0.8rem;
-            }
-
-            .line-code {
-              flex: 1;
-              white-space: pre-wrap;
-              word-break: break-word;
-            }
+            white-space: pre-wrap;
+            word-break: break-word;
           }
         }
       }
