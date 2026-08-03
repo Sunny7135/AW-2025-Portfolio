@@ -51,6 +51,7 @@ import '../../styles/global.scss'
 
               <div class="presets">
                 <span>Presets:</span>
+                <button type="button" class="preset-btn" data-preset="semicolon">⚠️ Missing Semicolon (C++)</button>
                 <button type="button" class="preset-btn" data-preset="nullptr">🚨 Null Pointer (C++)</button>
                 <button type="button" class="preset-btn" data-preset="security">🔒 SQL Injection</button>
                 <button type="button" class="preset-btn" data-preset="performance">⚡ O(n²) Slow Loop</button>
@@ -89,6 +90,16 @@ import '../../styles/global.scss'
 
     <script>
       const presets = {
+        semicolon: {
+          lang: 'C++',
+          code: `#include <iostream>
+
+int main() {
+    std::cout << "Testing project..." << std::endl
+
+    return 0;
+}`
+        },
         nullptr: {
           lang: 'C++',
           code: `#include <iostream>
@@ -130,6 +141,30 @@ def login_user(username, password):
       }
 
       const sampleReviews = {
+        semicolon: `### 🐛 Identified Bugs & Severity (C++)
+- 🚨 **SYNTAX ERROR**: Missing Semicolon \`;\` at end of statement.
+- **Severity**: High (Compilation Error / Build Failure).
+- **Location**: \`std::cout\` statement on line 4 is missing terminating semicolon \`;\`.
+
+---
+
+### 💡 Explanation & Recommendations
+- In C++, all executable statements must be terminated with a semicolon \`;\`. Missing semicolons cause compiler syntax errors.
+- **Fix**: Append a \`;\` at the end of \`std::cout << "Testing project..." << std::endl;\`.
+
+---
+
+### ✨ Optimal Corrected Solution
+\`\`\`cpp
+#include <iostream>
+
+int main() {
+    std::cout << "Testing project..." << std::endl; // Corrected: Added missing semicolon ';'
+
+    return 0;
+}
+\`\`\``,
+
         nullptr: `### 🐛 Identified Bugs & Severity (C++)
 - 🚨 **CRITICAL BUG**: Null Pointer Dereference (\`Segmentation Fault / Runtime Crash\`).
 - **Severity**: High (Will crash application immediately at runtime).
@@ -279,7 +314,37 @@ function findDuplicates(arr) {
           }
 
           if (!responseText) {
-            if (code.includes('nullptr') || code.includes('*ptr')) {
+            // Detect missing semicolon
+            const codeLines = code.split('\n').map(l => l.trim());
+            const hasMissingSemi = codeLines.some(l => (l.startsWith("std::cout") || l.startsWith("cout") || l.startsWith("return") || l.includes("<<")) && !l.endsWith(";") && !l.endsWith("{") && !l.endsWith("}"));
+
+            if (hasMissingSemi) {
+              const fixed = code.split('\n').map(line => {
+                const s = line.trim();
+                if ((s.startsWith("std::cout") || s.startsWith("cout") || s.includes("<<")) && !s.endsWith(";")) {
+                  return line + "; // Corrected: Added missing semicolon ';'";
+                }
+                return line;
+              }).join('\n');
+
+              responseText = `### 🐛 Identified Bugs & Severity (${lang})
+- 🚨 **SYNTAX ERROR**: Missing Semicolon \`;\` at end of statement.
+- **Severity**: High (Compilation Error / Build Failure).
+- **Location**: \`std::cout\` statement is missing terminating semicolon \`;\`.
+
+---
+
+### 💡 Explanation & Recommendations
+- In ${lang}, all executable statements must be terminated with a semicolon \`;\`. Missing semicolons cause compiler syntax errors.
+- **Fix**: Append a \`;\` at the end of the \`std::cout << ... << std::endl;\` statement.
+
+---
+
+### ✨ Optimal Corrected Solution
+\`\`\`cpp
+${fixed}
+\`\`\``;
+            } else if (code.includes('nullptr') || code.includes('*ptr')) {
               responseText = sampleReviews.nullptr;
             } else if (code.includes('SELECT') || code.includes('query')) {
               responseText = sampleReviews.security;
@@ -529,6 +594,7 @@ ${code}
         gap: 0.4rem;
         font-size: 0.8rem;
         color: #64748b;
+        flex-wrap: wrap;
 
         .preset-btn {
           background: rgba(255, 255, 255, 0.05);
