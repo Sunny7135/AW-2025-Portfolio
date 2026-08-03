@@ -243,37 +243,6 @@ function findDuplicates(arr) {
 \`\`\``
       }
 
-      function highlightCodeLine(line: string): string {
-        // 1. Escape HTML special characters
-        let safe = line
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-
-        // 2. Separate comment if present
-        let mainCode = safe;
-        let commentPart = '';
-        
-        const commentIdx = safe.indexOf('//');
-        const hashIdx = safe.indexOf('#');
-
-        if (commentIdx !== -1) {
-          mainCode = safe.substring(0, commentIdx);
-          commentPart = `<span class="code-comment">${safe.substring(commentIdx)}</span>`;
-        } else if (hashIdx === 0) {
-          // Preprocessor directive like #include <iostream>
-          return `<span class="code-keyword">${safe}</span>`;
-        }
-
-        // 3. Highlight keywords in mainCode
-        mainCode = mainCode.replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct|main|std|cout|endl)\b/g, '<span class="code-keyword">$1</span>');
-
-        // 4. Highlight strings in mainCode
-        mainCode = mainCode.replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>');
-
-        return mainCode + commentPart;
-      }
-
       const languageSelect = document.getElementById('language') as HTMLSelectElement;
       const codeInput = document.getElementById('code-input') as HTMLTextAreaElement;
       const reviewBtn = document.getElementById('review-btn') as HTMLButtonElement;
@@ -392,23 +361,20 @@ ${code}
           statusTag.textContent = 'Analysis Complete';
           statusTag.className = 'status-tag complete';
           
-          // Pure Syntax Highlighter - Clean lines without line numbers or token artifacts
+          // Pure, rock-solid Markdown Code Block Parser - ZERO HTML tag or string attribute artifacts!
           let html = responseText
             .replace(/```([^\n]*)\n([\s\S]*?)```/g, (_, langName, rawCode) => {
-              const cleanCode = rawCode.trim();
-              const lines = cleanCode.split('\n');
-
-              const linesHtml = lines.map((line) => {
-                const safeHighlighted = highlightCodeLine(line);
-                return `<div class="code-line">${safeHighlighted}</div>`;
-              }).join('\n');
+              const cleanCode = rawCode.trim()
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
 
               return `<div class="code-block-wrapper">
                 <div class="code-block-header">
                   <span>💻 ${langName.trim().toUpperCase() || 'OPTIMAL SOLUTION'}</span>
-                  <button type="button" class="copy-code-btn" data-code="${encodeURIComponent(cleanCode)}">Copy Code</button>
+                  <button type="button" class="copy-code-btn" data-code="${encodeURIComponent(rawCode.trim())}">Copy Code</button>
                 </div>
-                <pre class="res-code-block"><code>${linesHtml}</code></pre>
+                <pre class="res-code-block"><code>${cleanCode}</code></pre>
               </div>`;
             })
             // Headings
@@ -743,7 +709,7 @@ ${code}
         font-family: 'Consolas', 'Fira Code', monospace;
       }
 
-      /* Code Block Container */
+      /* Clean Dark Code Block Container */
       .code-block-wrapper {
         margin: 1.25rem 0;
         border-radius: 8px;
@@ -786,34 +752,19 @@ ${code}
         .res-code-block {
           margin: 0;
           padding: 1.25rem;
-          color: #f1f5f9;
+          color: #7dd3fc;
+          background: #090d16;
           font-family: 'Consolas', 'Fira Code', 'Monaco', monospace;
-          font-size: 0.92rem;
+          font-size: 0.95rem;
           line-height: 1.6;
-          overflow-x: auto;
+          white-space: pre-wrap;
+          word-break: break-word;
 
-          .code-line {
-            white-space: pre-wrap;
-            word-break: break-word;
+          code {
+            color: #7dd3fc;
+            font-family: inherit;
           }
         }
-      }
-
-      /* Clean Syntax Highlighting */
-      .code-comment {
-        font-style: italic !important;
-        font-family: 'Georgia', serif !important;
-        color: #6ee7b7 !important; /* Glowing Emerald Green for Cursive Comments */
-        font-weight: 500;
-      }
-
-      .code-keyword {
-        color: #f472b6 !important; /* Pink for Keywords */
-        font-weight: 700;
-      }
-
-      .code-string {
-        color: #fde047 !important; /* Bright Yellow for Strings */
       }
 
       .res-item {
