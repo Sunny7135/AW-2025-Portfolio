@@ -7,7 +7,7 @@ const key = Math.random().toString(36).slice(2, 6) + '-' + index + '/' + total
 
 <a-work class={cssClass}>
   <div class="a__inner">
-    <a href={site} target="_blank">
+    <a href={site} target={site && site.startsWith('http') ? '_blank' : '_self'}>
       <div class="a__overlay js-overlay">
         <div class="a__overlay__content">
           <span class="a__overlay__text">Project In Progress</span>
@@ -16,27 +16,34 @@ const key = Math.random().toString(36).slice(2, 6) + '-' + index + '/' + total
         </div>
       </div>
 
-      {src.endsWith('.mp4') ? (
-        <video
-          data-src={src}
-          class="a__video js-video"
-          loop
-          muted
-          playsinline
-          width="1082"
-          height="636"
-        >
-        </video>
-      ) : (
-        <img
-          src={src}
-          alt={caption}
-          class="a__video a__image js-image"
-          width="1082"
-          height="636"
-          loading="lazy"
-        />
-      )}
+      <div class="media-container">
+        {String(src).includes('.mp4') ? (
+          <video
+            src={src}
+            data-src={src}
+            class="a__video js-video"
+            autoplay
+            loop
+            muted
+            playsinline
+            width="1082"
+            height="636"
+          >
+          </video>
+        ) : (
+          <div class="black-hole-wrapper">
+            <img
+              src={src}
+              alt={caption}
+              class="a__video a__image js-image"
+              width="1082"
+              height="636"
+              loading="lazy"
+            />
+            <canvas class="black-hole-motion-canvas js-motion-canvas"></canvas>
+          </div>
+        )}
+      </div>
 
       <div class="a__caption">
         <div class="a__caption__text">
@@ -57,9 +64,13 @@ const key = Math.random().toString(36).slice(2, 6) + '-' + index + '/' + total
 
     link: HTMLAnchorElement
     video: HTMLVideoElement | null
+    canvas: HTMLCanvasElement | null
+    ctx: CanvasRenderingContext2D | null
     overlay: HTMLElement
 
     isPlaying: boolean
+    animId: number | null
+    particles: Array<{ x: number; y: number; r: number; angle: number; speed: number; distance: number; color: string }>
 
     /**
      * Init
@@ -69,12 +80,99 @@ const key = Math.random().toString(36).slice(2, 6) + '-' + index + '/' + total
       this.video = this.querySelector('.js-video')
       this.overlay = this.querySelector('.js-overlay')
       this.link = this.querySelector('a')
+      this.canvas = this.querySelector('.js-motion-canvas')
 
       // Properties
       this.isPlaying = false
+      this.particles = []
+      this.animId = null
+
+      if (this.canvas) {
+        this.initCanvasMotion()
+      }
 
       // Events
       this.link.addEventListener('click', this.onClick.bind(this))
+    }
+
+    initCanvasMotion() {
+      if (!this.canvas) return
+      this.ctx = this.canvas.getContext('2d')
+      
+      const width = (this.canvas.width = 1082)
+      const height = (this.canvas.height = 636)
+      const centerX = width * 0.62
+      const centerY = height * 0.48
+
+      // Initialize cosmic accretion particles
+      const colors = ['#38bdf8', '#818cf8', '#c084fc', '#f472b6', '#38bdf8']
+      for (let i = 0; i < 90; i++) {
+        this.particles.push({
+          x: centerX,
+          y: centerY,
+          r: Math.random() * 2.5 + 0.5,
+          angle: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.02 + 0.008,
+          distance: Math.random() * 260 + 40,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        })
+      }
+
+      let time = 0
+
+      const animate = () => {
+        if (!this.ctx || !this.canvas) return
+        time += 0.02
+        this.ctx.clearRect(0, 0, width, height)
+
+        // 1. Swirling Cosmic Particles into Singularity
+        this.particles.forEach((p) => {
+          p.angle += p.speed
+          p.distance -= 0.15
+          if (p.distance < 20) {
+            p.distance = Math.random() * 240 + 60
+          }
+
+          const px = centerX + Math.cos(p.angle) * p.distance * 1.3
+          const py = centerY + Math.sin(p.angle) * (p.distance * 0.65)
+
+          this.ctx.save()
+          this.ctx.beginPath()
+          this.ctx.arc(px, py, p.r, 0, Math.PI * 2)
+          this.ctx.fillStyle = p.color
+          this.ctx.shadowBlur = 8
+          this.ctx.shadowColor = p.color
+          this.ctx.globalAlpha = 0.85
+          this.ctx.fill()
+          this.ctx.restore()
+        })
+
+        // 2. Pulsing Photon Ring Energy Lens
+        this.ctx.save()
+        this.ctx.beginPath()
+        this.ctx.ellipse(centerX, centerY, 130 + Math.sin(time * 2) * 5, 65 + Math.cos(time * 2) * 3, -0.3, 0, Math.PI * 2)
+        this.ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)'
+        this.ctx.lineWidth = 2.5
+        this.ctx.shadowBlur = 15
+        this.ctx.shadowColor = '#38bdf8'
+        this.ctx.stroke()
+        this.ctx.restore()
+
+        // 3. Futuristic Scanning Telemetry Line
+        const scanY = (Math.sin(time * 0.8) * 0.5 + 0.5) * height
+        this.ctx.save()
+        this.ctx.beginPath()
+        this.ctx.moveTo(0, scanY)
+        this.ctx.lineTo(width, scanY)
+        this.ctx.strokeStyle = 'rgba(129, 140, 248, 0.15)'
+        this.ctx.lineWidth = 1.5
+        this.ctx.stroke()
+        this.ctx.restore()
+
+        this.animId = requestAnimationFrame(animate)
+      }
+
+      animate()
     }
 
     /**
@@ -100,9 +198,8 @@ const key = Math.random().toString(36).slice(2, 6) + '-' + index + '/' + total
      * Gets in view
      */
     inView() {
-      if (this.video) this.video.play()
+      if (this.video) this.video.play().catch(() => {})
       this.isPlaying = true
-
       this.classList.add('is-inview')
     }
 
@@ -112,7 +209,6 @@ const key = Math.random().toString(36).slice(2, 6) + '-' + index + '/' + total
     outView() {
       if (this.video) this.video.pause()
       this.isPlaying = false
-
       this.classList.remove('is-inview')
     }
 
@@ -168,6 +264,27 @@ const key = Math.random().toString(36).slice(2, 6) + '-' + index + '/' + total
       display: block;
       margin: 0;
       padding: 0;
+    }
+
+    .media-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .black-hole-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .black-hole-motion-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
     }
 
     .a__video {

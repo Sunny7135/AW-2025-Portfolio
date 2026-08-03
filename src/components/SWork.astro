@@ -10,7 +10,11 @@ const videos = await Astro.glob<{ default: any }>('/src/assets/works/*.mp4')
 const info = {
   AICodeReviewer: {
     title: 'AI Code Reviewer',
-    site: 'https://github.com/Sunny7135/AI_CodeReviewer',
+    site: '/demo/ai-code-reviewer',
+  },
+  CPUScheduling: {
+    title: 'CPU Scheduling Simulator',
+    site: 'http://localhost:8502',
   },
   Dummy1: {
     title: 'Project in Progress',
@@ -58,15 +62,23 @@ let projects = []
 
 // (Removed pens and video logic to focus on projects)
 
-// AI Code Reviewer (First Project)
+// AI Code Reviewer (First Project - Linked)
 const aiProject = info['AICodeReviewer']
 projects.push({
   caption: aiProject.title,
   site: aiProject.site,
-  src: '/images/01.png'
+  src: '/images/black_hole.jpg'
 })
 
-// Create dummy projects (In Progress)
+// CPU Scheduling (Second Project - Linked)
+const cpuProject = info['CPUScheduling']
+projects.push({
+  caption: cpuProject.title,
+  site: cpuProject.site,
+  src: '/images/black_hole.jpg'
+})
+
+// Create dummy projects (Previous video motion format)
 for (let i = 1; i <= 10; i++) {
   const key = `Dummy${i}`
   const project = info[key]
