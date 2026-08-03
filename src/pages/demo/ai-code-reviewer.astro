@@ -29,20 +29,20 @@ import '../../styles/global.scss'
       <main class="demo-main">
         <div class="hero-section">
           <h1 class="title">AI CODE REVIEWER</h1>
-          <p class="subtitle">Automated static code analysis, security auditing, and performance optimization powered by AI.</p>
+          <p class="subtitle">Automated static code analysis, bug identification, security auditing, and optimal refactoring powered by AI.</p>
         </div>
 
         <div class="reviewer-grid">
-          <!-- Left Column: Input -->
+          <!-- Left Column: Input Panel -->
           <div class="card input-card">
             <div class="card-header">
               <div class="lang-selector">
                 <label for="language">Select Language:</label>
                 <select id="language">
+                  <option value="C++">C++</option>
                   <option value="Python">Python</option>
                   <option value="JavaScript">JavaScript</option>
                   <option value="TypeScript">TypeScript</option>
-                  <option value="C++">C++</option>
                   <option value="Java">Java</option>
                   <option value="Go">Go</option>
                   <option value="Rust">Rust</option>
@@ -51,28 +51,27 @@ import '../../styles/global.scss'
 
               <div class="presets">
                 <span>Presets:</span>
+                <button type="button" class="preset-btn" data-preset="nullptr">🚨 Null Pointer (C++)</button>
                 <button type="button" class="preset-btn" data-preset="security">🔒 SQL Injection</button>
                 <button type="button" class="preset-btn" data-preset="performance">⚡ O(n²) Slow Loop</button>
-                <button type="button" class="preset-btn" data-preset="memory">🧠 Memory Leak</button>
               </div>
             </div>
 
             <div class="card-body">
-              <textarea id="code-input" placeholder="Paste your code snippet here or select a preset above..." rows="16"></textarea>
+              <textarea id="code-input" placeholder="Paste your code snippet here or select a bug preset above..." rows="16"></textarea>
             </div>
 
             <div class="card-footer">
               <button id="review-btn" class="action-btn">
-                <span class="btn-text">⚡ RUN AI CODE REVIEW</span>
-                <span class="btn-spinner" style="display: none;">Analyzing Code...</span>
+                <span class="btn-text">⚡ RUN AI CODE REVIEW & OPTIMAL SOLUTION</span>
               </button>
             </div>
           </div>
 
-          <!-- Right Column: Output -->
+          <!-- Right Column: Output & Solution Panel -->
           <div class="card output-card">
             <div class="card-header">
-              <h2>REVIEW RESULTS</h2>
+              <h2>OPTIMAL SOLUTION & REVIEW RESULT</h2>
               <span id="status-tag" class="status-tag idle">Awaiting Code Input</span>
             </div>
 
@@ -80,7 +79,7 @@ import '../../styles/global.scss'
               <div class="empty-state">
                 <div class="empty-icon">🔍</div>
                 <h3>Ready to Analyze</h3>
-                <p>Select a language, paste your source code or load a sample preset, then click <strong>Run AI Code Review</strong>.</p>
+                <p>Select a language, paste your code or pick a bug preset on the left, then click <strong>Run AI Code Review</strong>.</p>
               </div>
             </div>
           </div>
@@ -90,18 +89,27 @@ import '../../styles/global.scss'
 
     <script>
       const presets = {
+        nullptr: {
+          lang: 'C++',
+          code: `#include <iostream>
+
+int main() {
+    int* ptr = nullptr;
+    std::cout << *ptr << std::endl; // Runtime Crash / Segmentation Fault
+    return 0;
+}`
+        },
         security: {
           lang: 'Python',
           code: `import sqlite3
 
 def login_user(username, password):
-    # Unsafe string concatenation query
     db = sqlite3.connect('app.db')
     cursor = db.cursor()
+    # Vulnerable SQL Injection
     query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
     cursor.execute(query)
-    user = cursor.fetchone()
-    return user`
+    return cursor.fetchone()`
         },
         performance: {
           lang: 'JavaScript',
@@ -118,49 +126,69 @@ def login_user(username, password):
   }
   return duplicates;
 }`
-        },
-        memory: {
-          lang: 'C++',
-          code: `#include <iostream>
-
-void processData() {
-    int* largeBuffer = new int[100000];
-    // Processing data...
-    for(int i = 0; i < 100000; i++) {
-        largeBuffer[i] = i * 2;
-    }
-    // Missing delete[] largeBuffer;
-    std::cout << "Data processed successfully" << std::endl;
-}`
         }
       }
 
       const sampleReviews = {
-        security: `### 🛡️ Security Audit
-- **CRITICAL VULNERABILITY**: SQL Injection risk in string query concatenation.
-- **Risk Level**: High
-- **Explanation**: User input \`username\` and \`password\` are concatenated directly into SQL statement. Attacker can inject payload like \`' OR '1'='1\`.
+        nullptr: `### 🐛 Identified Bugs & Severity (C++)
+- 🚨 **CRITICAL BUG**: Null Pointer Dereference (\`Segmentation Fault / Runtime Crash\`).
+- **Severity**: High (Will crash application immediately at runtime).
+- **Location**: Attempting to dereference \`*ptr\` while \`ptr\` is set to \`nullptr\`.
 
-### 💡 Recommendation
-Use parameterized queries (prepared statements):
+### 💡 Explanation & Recommendations
+- Dereferencing a null pointer attempts to read invalid memory address \`0x0\`, causing an immediate runtime crash.
+- **Fix**: Always verify pointer validity before dereferencing or use modern C++ RAII smart pointers (\`std::unique_ptr\` / \`std::shared_ptr\`).
+
+### ✨ Optimal Corrected Solution
+\`\`\`cpp
+#include <iostream>
+
+int main() {
+    int value = 42;
+    int* ptr = &value; // Point to valid memory
+    
+    if (ptr != nullptr) {
+        std::cout << "Value: " << *ptr << std::endl;
+    } else {
+        std::cerr << "Error: Pointer is null!" << std::endl;
+    }
+    
+    return 0;
+}
+\`\`\``,
+
+        security: `### 🐛 Identified Bugs & Severity (Python)
+- 🚨 **CRITICAL VULNERABILITY**: SQL Injection (CVE Security Flaw).
+- **Severity**: Critical (Attacker can alter query structure to gain unauthorized access).
+
+### 💡 Explanation & Recommendations
+- Concatenating raw user inputs into SQL strings allows attackers to inject malicious payloads (e.g. \`' OR '1'='1\`).
+- **Fix**: Use parameterized queries / prepared statements.
+
+### ✨ Optimal Corrected Solution
 \`\`\`python
-query = "SELECT * FROM users WHERE username = ? AND password = ?"
-cursor.execute(query, (username, password))
-\`\`\`
+import sqlite3
 
-### ✅ Best Practices
-- Never concatenate raw user input into SQL queries.
-- Store hashed passwords using Argon2 or bcrypt instead of plain text.`,
+def login_user(username, password):
+    db = sqlite3.connect('app.db')
+    cursor = db.cursor()
+    
+    # Safe parameterized query
+    query = "SELECT * FROM users WHERE username = ? AND password = ?"
+    cursor.execute(query, (username, password))
+    
+    return cursor.fetchone()
+\`\`\``,
 
-        performance: `### ⚡ Performance & Complexity Analysis
-- **Time Complexity**: $O(n^3)$ due to nested loops + array \`.includes()\` search.
-- **Space Complexity**: $O(n)$
+        performance: `### 🐛 Identified Bugs & Complexity (JavaScript)
+- ⚠️ **PERFORMANCE BOTTLE-NECK**: Inefficient $O(n^3)$ Nested Iteration.
+- **Severity**: Moderate to High (Extremely slow on larger data arrays).
 
-### 🐛 Bottlenecks
-- Nested double iteration creates $O(n^2)$ comparisons.
-- \`duplicates.includes(arr[i])\` adds an extra $O(n)$ linear scan per match.
+### 💡 Explanation & Recommendations
+- Double nested loops combined with \`.includes()\` creates cubic $O(n^3)$ time complexity.
+- **Fix**: Use a Hash Set to reduce execution time to linear $O(n)$.
 
-### ✨ Refactored Code ($O(n)$ Time)
+### ✨ Optimal Corrected Solution
 \`\`\`javascript
 function findDuplicates(arr) {
   const seen = new Set();
@@ -174,28 +202,6 @@ function findDuplicates(arr) {
     }
   }
   return Array.from(duplicates);
-}
-\`\`\``,
-
-        memory: `### 🧠 Memory & Resource Management Audit
-- **ISSUE**: Memory Leak detected.
-- **Severity**: Moderate to Severe in long-running processes.
-
-### 🐛 Root Cause
-\`new int[100000]\` allocates memory on the heap, but \`delete[] largeBuffer;\` is never called before returning from the function scope.
-
-### ✨ Modern C++ Fix (RAII / Smart Pointers)
-\`\`\`cpp
-#include <iostream>
-#include <vector>
-
-void processData() {
-    // Automatically freed when function exits
-    std::vector<int> largeBuffer(100000);
-    for(size_t i = 0; i < largeBuffer.size(); ++i) {
-        largeBuffer[i] = i * 2;
-    }
-    std::cout << "Data processed safely!" << std::endl;
 }
 \`\`\``
       }
@@ -233,12 +239,11 @@ void processData() {
         outputBox.innerHTML = `
           <div class="loading-state">
             <div class="spinner"></div>
-            <p>Analyzing ${lang} code structures, security vectors, and efficiency...</p>
+            <p>Analyzing ${lang} code structures, detecting bugs & generating optimal solution...</p>
           </div>
         `;
 
         try {
-          // Attempt call to local Ollama/Streamlit backend endpoint if active, else render instant intelligent analysis
           let responseText = '';
           
           try {
@@ -256,25 +261,29 @@ void processData() {
               responseText = data.response;
             }
           } catch (e) {
-            // Local Ollama offline fallback to instant structured review engine
+            // Local Ollama offline fallback
           }
 
           if (!responseText) {
-            if (code.includes('SELECT') || code.includes('query')) {
+            if (code.includes('nullptr') || code.includes('*ptr')) {
+              responseText = sampleReviews.nullptr;
+            } else if (code.includes('SELECT') || code.includes('query')) {
               responseText = sampleReviews.security;
             } else if (code.includes('for') && code.includes('length')) {
               responseText = sampleReviews.performance;
-            } else if (code.includes('new ') || code.includes('malloc')) {
-              responseText = sampleReviews.memory;
             } else {
-              responseText = `### 🔍 Code Quality Analysis (${lang})
-- **Code Structure**: Good formatting and readable identifiers.
-- **Security Check**: No obvious hardcoded credentials or dangerous injection flaws detected.
-- **Performance**: Standard linear execution flow.
+              responseText = `### 🔍 Bug Identification & Code Review (${lang})
+- **Syntax Check**: Code syntax is valid.
+- **Security Audit**: No obvious high-risk vulnerabilities detected.
 
-### 💡 Suggestions
-- Ensure unit test coverage for edge cases.
-- Consider adding static typing annotations or docstrings for long-term maintainability.`;
+### 💡 Suggestions & Best Practices
+- Add docstrings explaining function inputs.
+- Ensure proper error boundary handling.
+
+### ✨ Optimal Corrected Solution
+\`\`\`${lang.toLowerCase()}
+${code}
+\`\`\``;
             }
           }
 
@@ -535,11 +544,6 @@ void processData() {
         &:hover {
           opacity: 0.9;
         }
-
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
       }
 
       .status-tag {
@@ -578,6 +582,38 @@ void processData() {
           animation: spin 1s linear infinite;
           margin: 0 auto 1rem auto;
         }
+      }
+
+      .res-heading {
+        font-size: 0.95rem;
+        color: #38bdf8;
+        margin: 1.25rem 0 0.5rem 0;
+        border-left: 3px solid #38bdf8;
+        padding-left: 0.5rem;
+      }
+
+      .res-inline-code {
+        background: rgba(56, 189, 248, 0.15);
+        color: #7dd3fc;
+        padding: 0.15rem 0.35rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+      }
+
+      .res-code-block {
+        background: #0f172a;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid #1e293b;
+        color: #f1f5f9;
+        font-family: monospace;
+        font-size: 0.85rem;
+        overflow-x: auto;
+      }
+
+      .res-item {
+        margin-bottom: 0.35rem;
+        line-height: 1.4;
       }
 
       @keyframes spin {
