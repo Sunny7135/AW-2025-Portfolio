@@ -373,23 +373,38 @@ ${code}
           statusTag.textContent = 'Analysis Complete';
           statusTag.className = 'status-tag complete';
           
-          // Advanced Markdown Parser - Handles language tags with symbols (+, #) and escapes HTML tags (<iostream>)
+          // Advanced VS Code Theme Parser for Demo Solution Blocks
           let html = responseText
-            // Match code blocks with any language identifier (cpp, c++, c#, py, etc.)
+            // Match code blocks with line numbers and VS Code syntax colors
             .replace(/```([^\n]*)\n([\s\S]*?)```/g, (_, langName, rawCode) => {
-              // 1. Escape HTML tags so <iostream> is not swallowed
-              const safeCode = rawCode
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
+              const cleanCode = rawCode.trim();
+              const lines = cleanCode.split('\n');
 
-              // 2. Highlight comments & keywords
-              const highlighted = safeCode
-                .replace(/(\/\/.*|\#.*)/g, '<span class="code-comment">$1</span>')
-                .replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct|main)\b/g, '<span class="code-keyword">$1</span>')
-                .replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>');
+              const linesHtml = lines.map((line, idx) => {
+                let safeLine = line
+                  .replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;');
 
-              return `<div class="code-block-wrapper"><div class="code-block-header">${langName.trim() || 'SOLUTION'}</div><pre class="res-code-block"><code>${highlighted}</code></pre></div>`;
+                // Cursive Green Comments
+                safeLine = safeLine.replace(/(\/\/.*|\#.*)/g, '<span class="code-comment">$1</span>');
+                // VS Code Pink Keywords
+                safeLine = safeLine.replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct|main|std|cout|endl)\b/g, '<span class="code-keyword">$1</span>');
+                // VS Code Yellow Strings
+                safeLine = safeLine.replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>');
+
+                return `<div class="code-line"><span class="line-num">${idx + 1}</span><span class="line-code">${safeLine}</span></div>`;
+              }).join('');
+
+              const escapedRaw = cleanCode.replace(/`/g, '\\`').replace(/\\/g, '\\\\');
+
+              return `<div class="code-block-wrapper">
+                <div class="code-block-header">
+                  <span>💻 VS CODE ${langName.trim().toUpperCase() || 'OPTIMAL SOLUTION'}</span>
+                  <button type="button" class="copy-code-btn" data-code="${encodeURIComponent(cleanCode)}">Copy Code</button>
+                </div>
+                <div class="res-code-block">${linesHtml}</div>
+              </div>`;
             })
             // Headings
             .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1</h3>')
@@ -403,6 +418,16 @@ ${code}
             .replace(/- (.*?)\n/g, '<li class="res-item">$1</li>');
 
           outputBox.innerHTML = `<div class="analysis-result">${html}</div>`;
+
+          // Add Copy Event Handlers
+          outputBox.querySelectorAll('.copy-code-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const codeToCopy = decodeURIComponent((btn as HTMLElement).dataset.code || '');
+              navigator.clipboard.writeText(codeToCopy);
+              btn.textContent = 'Copied!';
+              setTimeout(() => { btn.textContent = 'Copy Code'; }, 2000);
+            });
+          });
 
         } catch (err) {
           statusTag.textContent = 'Error';
@@ -713,52 +738,95 @@ ${code}
         font-family: 'Consolas', 'Fira Code', monospace;
       }
 
+      /* VS Code Code Block Container */
       .code-block-wrapper {
         margin: 1.25rem 0;
         border-radius: 8px;
         overflow: hidden;
         border: 1px solid #1e293b;
         background: #090d16;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 
         .code-block-header {
           background: #0f172a;
-          padding: 0.35rem 0.75rem;
+          padding: 0.5rem 0.85rem;
           font-size: 0.75rem;
           font-weight: 700;
-          color: #64748b;
+          color: #38bdf8;
           text-transform: uppercase;
           border-bottom: 1px solid #1e293b;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .copy-code-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+              background: #38bdf8;
+              color: #0b0f19;
+              border-color: #38bdf8;
+            }
+          }
         }
 
         .res-code-block {
           margin: 0;
-          padding: 1.25rem;
+          padding: 1rem 0;
           color: #f1f5f9;
           font-family: 'Consolas', 'Fira Code', 'Monaco', monospace;
           font-size: 0.9rem;
           line-height: 1.6;
-          white-space: pre-wrap;
-          word-break: break-word;
-          tab-size: 4;
-          overflow-x: auto;
+
+          .code-line {
+            display: flex;
+            padding: 0 1rem;
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.03);
+            }
+
+            .line-num {
+              width: 2.2rem;
+              user-select: none;
+              color: #475569;
+              text-align: right;
+              padding-right: 1rem;
+              font-size: 0.8rem;
+            }
+
+            .line-code {
+              flex: 1;
+              white-space: pre-wrap;
+              word-break: break-word;
+            }
+          }
         }
       }
 
       /* Syntax Highlighting */
       .code-comment {
-        font-style: italic;
-        font-family: 'Georgia', 'Playfair Display', serif;
+        font-style: italic !important;
+        font-family: 'Georgia', serif !important;
         color: #6ee7b7 !important; /* Glowing Emerald Green for Cursive Comments */
         font-weight: 500;
       }
 
       .code-keyword {
-        color: #f472b6;
+        color: #f472b6 !important; /* VS Code Pink for Keywords */
         font-weight: 700;
       }
 
       .code-string {
-        color: #fde047;
+        color: #fde047 !important; /* VS Code Yellow for Strings */
       }
 
       .res-item {
