@@ -95,7 +95,7 @@ import '../../styles/global.scss'
 
 int main() {
     int* ptr = nullptr;
-    std::cout << *ptr << std::endl; // Runtime Crash / Segmentation Fault
+    std::cout << *ptr << std::endl; // Runtime Crash / Null Pointer Dereference
     return 0;
 }`
         },
@@ -106,7 +106,7 @@ int main() {
 def login_user(username, password):
     db = sqlite3.connect('app.db')
     cursor = db.cursor()
-    # Vulnerable SQL Injection
+    # Unsafe string concatenation (SQL Injection)
     query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
     cursor.execute(query)
     return cursor.fetchone()`
@@ -149,15 +149,16 @@ def login_user(username, password):
 
 int main() {
     int value = 42;
-    int* ptr = &value; // Point to valid memory
+    int* ptr = &value; // Point to valid memory address
     
+    // Check if pointer is non-null before accessing
     if (ptr != nullptr) {
         std::cout << "Value: " << *ptr << std::endl;
     } else {
         std::cerr << "Error: Pointer is null!" << std::endl;
     }
     
-    return 0;
+    return 0; // Return successfully
 }
 \`\`\``,
 
@@ -181,7 +182,7 @@ def login_user(username, password):
     db = sqlite3.connect('app.db')
     cursor = db.cursor()
     
-    # Safe parameterized query
+    # Safe parameterized query prevents injection
     query = "SELECT * FROM users WHERE username = ? AND password = ?"
     cursor.execute(query, (username, password))
     
@@ -206,6 +207,7 @@ function findDuplicates(arr) {
   const seen = new Set();
   const duplicates = new Set();
   
+  // Linear O(n) scan using set lookup
   for (const item of arr) {
     if (seen.has(item)) {
       duplicates.add(item);
@@ -306,10 +308,17 @@ ${code}
           statusTag.textContent = 'Analysis Complete';
           statusTag.className = 'status-tag complete';
           
-          // Fix markdown parsing: Replace code blocks FIRST before inline backticks
+          // Advanced Markdown & Code Syntax Parser with Cursive Comments
           let html = responseText
-            // Code blocks
-            .replace(/```(\w*)\n([\s\S]*?)```/g, '<div class="code-block-wrapper"><div class="code-block-header">$1</div><pre class="res-code-block"><code>$2</code></pre></div>')
+            // Code blocks with syntax highlighting & cursive comments
+            .replace(/```(\w*)\n([\s\S]*?)```/g, (_, langName, codeContent) => {
+              const highlighted = codeContent
+                .replace(/(\/\/.*|\#.*)/g, '<span class="code-comment">$1</span>')
+                .replace(/\b(int|void|return|if|else|nullptr|const|class|function|let|var|def|import|from|include|struct)\b/g, '<span class="code-keyword">$1</span>')
+                .replace(/(".*?"|'.*?')/g, '<span class="code-string">$1</span>');
+
+              return `<div class="code-block-wrapper"><div class="code-block-header">${langName || 'SOLUTION'}</div><pre class="res-code-block"><code>${highlighted}</code></pre></div>`;
+            })
             // Headings
             .replace(/### (.*?)\n/g, '<h3 class="res-heading">$1</h3>')
             // Horizontal rule
@@ -650,18 +659,32 @@ ${code}
 
         .res-code-block {
           margin: 0;
-          padding: 1rem;
+          padding: 1.25rem;
           color: #f1f5f9;
           font-family: 'Consolas', 'Fira Code', 'Monaco', monospace;
-          font-size: 0.88rem;
-          line-height: 1.5;
+          font-size: 0.9rem;
+          line-height: 1.6;
+          white-space: pre;
+          tab-size: 4;
           overflow-x: auto;
-
-          code {
-            white-space: pre;
-            display: block;
-          }
         }
+      }
+
+      /* Syntax Highlighting */
+      .code-comment {
+        font-style: italic;
+        font-family: 'Georgia', 'Playfair Display', serif;
+        color: #6ee7b7; /* Distinct glowing mint green for cursive comments */
+        font-weight: 500;
+      }
+
+      .code-keyword {
+        color: #f472b6;
+        font-weight: 700;
+      }
+
+      .code-string {
+        color: #fde047;
       }
 
       .res-item {
